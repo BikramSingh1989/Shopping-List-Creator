@@ -1,35 +1,43 @@
 {% extends "base.html" %}
 {% block title %}Dashboard{% endblock %}
+
 {% block content %}
 <h2>Hello, {{ session.username }}!</h2>
+
 <form method="post">
   <input name="name" placeholder="Item Name" required>
   <input name="quantity" type="number" placeholder="Quantity" required>
   <input name="par" type="number" placeholder="Par Level" required>
-  <input name="expiration" type="date" placeholder="Expiration Date">
+  <input name="expiration" type="date" placeholder="Expiration Date (optional)">
   <button type="submit">Add Item</button>
 </form>
 
-<h3 class="section">Inventory</h3>
-{% for item in items %}
-  <div class="item">
-    <strong>{{ item.name }}</strong>: {{ item.quantity }} (Par: {{ item.par }})
-    {% if item.expiration %}
-      <div>Expires: {{ item.expiration.strftime('%Y-%m-%d') if item.expiration else '' }}</div>
-    {% endif %}
-    <a href="/delete/{{ item._id }}">🗑️</a>
-  </div>
+<h3>Inventory</h3>
+{% if items %}
+  {% for item in items %}
+    <div class="item">
+      <div>
+        <strong>{{ item.name }}</strong>: {{ item.quantity }} (Par: {{ item.par }})
+        {% if item.expiration %}
+          <div>📅 Expires: {{ item.expiration.strftime('%Y-%m-%d') if item.expiration else '' }}</div>
+        {% endif %}
+      </div>
+      <a href="/delete/{{ item._id }}">🗑️</a>
+    </div>
+  {% endfor %}
+  <a href="/clear-inventory" class="btn" onclick="return confirm('Are you sure you want to clear your entire inventory?');">
+    🧹 Clear Inventory
+  </a>
 {% else %}
   <p>No items found.</p>
-{% endfor %}
+{% endif %}
 
-<a href="/clear-inventory" class="btn" onclick="return confirm('Are you sure you want to clear your entire inventory?');">
-  🧹 Clear Inventory
-</a>
-
-<h3>Shopping List</h3>
-{% for item in shopping %}
-  <p>🛒 {{ item.name }} (Need {{ item.par - item.quantity }})</p>
+<h3 style="margin-top: 2rem;">Shopping List</h3>
+{% if shopping %}
+  {% for item in shopping %}
+    <p>🛒 {{ item.name }} (Need {{ item.par - item.quantity }})</p>
+  {% endfor %}
 {% else %}
   <p>All stocked up!</p>
-{% endfor %}
+{% endif %}
+{% endblock %}

@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, session, url_for
+from flask import Flask, render_template, request, redirect, session
 from pymongo import MongoClient
 from bson.objectid import ObjectId
 from datetime import datetime
@@ -7,7 +7,12 @@ import os
 app = Flask(__name__)
 app.secret_key = os.getenv("SECRET_KEY")
 
-client = MongoClient(os.getenv("MONGO_URI"))
+# Ensure this env variable is properly set in Render or .env
+mongo_uri = os.getenv("MONGO_URI")
+if not mongo_uri or not mongo_uri.startswith(("mongodb://", "mongodb+srv://")):
+    raise ValueError("Invalid or missing MONGO_URI. Must begin with 'mongodb://' or 'mongodb+srv://'")
+
+client = MongoClient(mongo_uri)
 db = client.inventory_app
 users_col = db.users
 
@@ -52,17 +57,17 @@ def dashboard():
             try:
                 expiration_date = datetime.strptime(expiration_str, '%Y-%m-%d')
             except ValueError:
-                expiration_date = None
+                return "Invalid expiration date format (expected YYYY-MM-DD)"
 
-        users_col.update_one(
-            {'_id': user['_id']},
-            {'$push': {'items': {
-                'name': name,
-                'quantity': quantity,
-                'par': par,
-                'expiration': expiration_date
-            }}}
-        )
+        item = {
+            '_id': ObjectId(),
+            'name': name,
+            'quantity': quantity,
+            'par': par,
+            'expiration': expiration_date
+        }
+
+        users_col.update_one({'_id': user['_id']}, {'$push': {'items': item}})
         return redirect("/dashboard")
 
     items = user.get('items', [])

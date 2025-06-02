@@ -52,6 +52,11 @@ def dashboard():
     shopping_list = [item for item in items if item['quantity'] < item['par']]
     return render_template('dashboard.html', items=items, shopping=shopping_list)
 
+@app.route('/how-to-use')
+def how_to_use():
+    return render_template('how_to_use.html')
+
+
 @app.route('/delete/<item_id>')
 def delete_item(item_id):
     items_col.delete_one({'_id': ObjectId(item_id)})

@@ -2,27 +2,30 @@
 {% block title %}Dashboard{% endblock %}
 {% block content %}
 <h2>Hello, {{ session.username }}!</h2>
-
 <form method="post">
   <input name="name" placeholder="Item Name" required>
   <input name="quantity" type="number" placeholder="Quantity" required>
   <input name="par" type="number" placeholder="Par Level" required>
+  <input name="expiration" type="date" placeholder="Expiration Date">
   <button type="submit">Add Item</button>
 </form>
 
-<h3>Inventory</h3>
-
-{% if items %}
-  {% for item in items %}
-    <div class="item">
-      <strong>{{ item.name }}</strong>: {{ item.quantity }} (Par: {{ item.par }})
-      <a href="/delete/{{ item._id }}">🗑️</a>
-    </div>
-  {% endfor %}
-  <a href="/clear-inventory" class="btn" onclick="return confirm('Are you sure you want to clear your entire inventory?');">🧹 Clear Inventory</a>
+<h3 class="section">Inventory</h3>
+{% for item in items %}
+  <div class="item">
+    <strong>{{ item.name }}</strong>: {{ item.quantity }} (Par: {{ item.par }})
+    {% if item.expiration %}
+      <div>Expires: {{ item.expiration.strftime('%Y-%m-%d') if item.expiration else '' }}</div>
+    {% endif %}
+    <a href="/delete/{{ item._id }}">🗑️</a>
+  </div>
 {% else %}
   <p>No items found.</p>
-{% endif %}
+{% endfor %}
+
+<a href="/clear-inventory" class="btn" onclick="return confirm('Are you sure you want to clear your entire inventory?');">
+  🧹 Clear Inventory
+</a>
 
 <h3>Shopping List</h3>
 {% for item in shopping %}
@@ -30,4 +33,3 @@
 {% else %}
   <p>All stocked up!</p>
 {% endfor %}
-{% endblock %}

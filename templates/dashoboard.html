@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block title %}Dashboard{% endblock %}
+{% block content %}
+<h2>Hello, {{ session.username }}!</h2>
+<form method="post">
+  <input name="name" placeholder="Item Name" required>
+  <input name="quantity" type="number" placeholder="Quantity" required>
+  <input name="par" type="number" placeholder="Par Level" required>
+  <button type="submit">Add Item</button>
+</form>
+
+<h3>Inventory</h3>
+{% for item in items %}
+  <div class="item">
+    <strong>{{ item.name }}</strong>: {{ item.quantity }} (Par: {{ item.par }})
+    <a href="/delete/{{ item._id }}">🗑️</a>
+  </div>
+{% else %}
+  <p>No items found.</p>
+{% endfor %}
+
+<h3>Shopping List</h3>
+{% for item in shopping %}
+  <p>🛒 {{ item.name }} (Need {{ item.par - item.quantity }})</p>
+{% else %}
+  <p>All stocked up!</p>
+{% endfor %}
+
+<a href="/logout">Logout</a>
+{% endblock %}

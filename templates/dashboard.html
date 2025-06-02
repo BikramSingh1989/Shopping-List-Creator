@@ -19,7 +19,7 @@
       <a href="/delete/{{ item._id }}">🗑️</a>
     </div>
   {% endfor %}
-  
+
   <a href="/clear-inventory" class="btn" onclick="return confirm('Are you sure you want to clear your entire inventory?');">
     🧹 Clear Inventory
   </a>
@@ -33,6 +33,4 @@
 {% else %}
   <p>All stocked up!</p>
 {% endfor %}
-
-<a href="/logout" class="btn">Logout</a>
 {% endblock %}

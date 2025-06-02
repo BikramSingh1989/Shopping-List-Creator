@@ -1,49 +1,52 @@
 /* ===== Theme Variables ===== */
 :root {
-  --bg: #ffffff;
+  --bg: #f0f0f0;
   --text: #000000;
-  --card-bg: #f4f4f4;
+  --card-bg: #ffffff;
   --accent: #007bff;
   --accent-hover: #0056b3;
 }
 
 body.dark {
-  --bg: #121212;
+  --bg: #1a1a1a;
   --text: #f1f1f1;
-  --card-bg: #1e1e1e;
+  --card-bg: #2a2a2a;
   --accent: #3399ff;
   --accent-hover: #1177cc;
 }
 
 /* ===== Base Styles ===== */
-body {
-  font-family: sans-serif;
+html, body {
+  height: 100%;
   margin: 0;
   padding: 0;
+  font-family: sans-serif;
   background-color: var(--bg);
   color: var(--text);
   transition: background 0.3s ease, color 0.3s ease;
 }
 
+/* Responsive container */
 .container {
   max-width: 800px;
-  margin: auto;
-  padding: 2rem;
+  margin: 2rem auto;
+  padding: 1.5rem;
+  background: var(--bg);
 }
 
-/* ===== Form Styles ===== */
+/* Forms */
 form {
   margin-bottom: 1.5rem;
 }
 
+/* Input and Button styling */
 input, button, .btn {
   padding: 0.75rem;
   margin: 0.5rem 0;
-  display: block;
   width: 100%;
-  box-sizing: border-box;
   font-size: 1rem;
-  border-radius: 4px;
+  box-sizing: border-box;
+  border-radius: 5px;
   text-align: center;
   text-decoration: none;
 }
@@ -74,46 +77,38 @@ button:hover, .btn:hover {
   background-color: var(--accent-hover);
 }
 
-/* ===== Toggle Button (Dark Mode) ===== */
+/* Toggle dark mode */
 .toggle-btn {
   float: right;
   margin: 1rem;
   padding: 0.5rem 1rem;
-  cursor: pointer;
   border: none;
   background: none;
   color: var(--text);
   font-size: 1rem;
+  cursor: pointer;
 }
 
-/* ===== Card Style for Inventory Items ===== */
+/* Item card layout */
 .item {
   background: var(--card-bg);
   padding: 1rem;
   margin: 0.5rem 0;
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0,0,0,0.08);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
 }
 
-/* ===== Link Buttons (logout, delete) ===== */
-a.btn {
-  display: block;
-  background-color: var(--accent);
-  color: white;
-  border: none;
-  padding: 0.75rem;
-  margin: 0.5rem 0;
-  width: 100%;
-  font-size: 1rem;
-  border-radius: 4px;
-  text-decoration: none;
+/* Delete icon alignment */
+.item a {
+  margin-left: 1rem;
+  font-size: 1.2rem;
 }
 
-a.btn:hover {
-  background-color: var(--accent-hover);
-}
-
-/* ===== Utility Links ===== */
+/* Links */
 a {
   color: var(--accent);
   text-decoration: none;
@@ -121,4 +116,33 @@ a {
 
 a:hover {
   text-decoration: underline;
+}
+
+/* Responsive Typography */
+h2, h3, p {
+  margin: 0.5rem 0;
+  line-height: 1.4;
+}
+
+/* ===== Mobile-first improvements ===== */
+@media (max-width: 600px) {
+  .container {
+    padding: 1rem;
+  }
+
+  .toggle-btn {
+    float: none;
+    display: block;
+    text-align: right;
+  }
+
+  .item {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .item a {
+    margin-top: 0.5rem;
+    margin-left: 0;
+  }
 }

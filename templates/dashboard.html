@@ -1,43 +1,27 @@
-{% extends "base.html" %}
-{% block title %}Dashboard{% endblock %}
-
-{% block content %}
-<h2>Hello, {{ session.username }}!</h2>
-
 <form method="post">
-  <input name="name" placeholder="Item Name" required>
-  <input name="quantity" type="number" placeholder="Quantity" required>
-  <input name="par" type="number" placeholder="Par Level" required>
-  <input name="expiration" type="date" placeholder="Expiration Date (optional)">
+  <label>
+    Item Name:
+    <input name="name" placeholder="Item Name" required>
+    <small>e.g., Milk, Rice, Batteries</small>
+  </label>
+
+  <label>
+    Quantity:
+    <input name="quantity" type="number" placeholder="Quantity" required>
+    <small>Current number you have on hand</small>
+  </label>
+
+  <label>
+    Par Level:
+    <input name="par" type="number" placeholder="Par Level" required>
+    <small>Minimum quantity before restock is needed</small>
+  </label>
+
+  <label>
+    Expiration Date:
+    <input name="expiration" type="date">
+    <small>Optional. Used for tracking perishables (e.g., 2025-12-31)</small>
+  </label>
+
   <button type="submit">Add Item</button>
 </form>
-
-<h3>Inventory</h3>
-{% if items %}
-  {% for item in items %}
-    <div class="item">
-      <div>
-        <strong>{{ item.name }}</strong>: {{ item.quantity }} (Par: {{ item.par }})
-        {% if item.expiration %}
-          <div>📅 Expires: {{ item.expiration.strftime('%Y-%m-%d') if item.expiration else '' }}</div>
-        {% endif %}
-      </div>
-      <a href="/delete/{{ item._id }}">🗑️</a>
-    </div>
-  {% endfor %}
-  <a href="/clear-inventory" class="btn" onclick="return confirm('Are you sure you want to clear your entire inventory?');">
-    🧹 Clear Inventory
-  </a>
-{% else %}
-  <p>No items found.</p>
-{% endif %}
-
-<h3 style="margin-top: 2rem;">Shopping List</h3>
-{% if shopping %}
-  {% for item in shopping %}
-    <p>🛒 {{ item.name }} (Need {{ item.par - item.quantity }})</p>
-  {% endfor %}
-{% else %}
-  <p>All stocked up!</p>
-{% endif %}
-{% endblock %}

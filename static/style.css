@@ -137,9 +137,16 @@ a:hover {
 
 /* ===== Mobile Adjustments ===== */
 @media (max-width: 600px) {
-  .container {
-    padding: 1rem;
+  .top-right-buttons {
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: flex-end;
   }
+
+  .btn.small {
+    margin-bottom: 0.5rem;
+  }
+}
 
   .top-right-buttons {
     flex-direction: column;

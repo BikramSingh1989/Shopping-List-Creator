@@ -1,21 +1,21 @@
-FROM python:3.11-slim
+FROM python:3.11
 
 WORKDIR /app
 
-# Install system dependencies for SSL, MongoDB, etc.
-RUN apt-get update && apt-get install -y --no-install-recommends \
+# Install system dependencies (needed for pymongo + SSL)
+RUN apt-get update && apt-get install -y \
     gcc \
-    libffi-dev \
     libssl-dev \
+    libffi-dev \
+    build-essential \
     ca-certificates \
+    curl \
     && rm -rf /var/lib/apt/lists/*
 
-# Copy files
 COPY . .
 
-# Install Python dependencies
 RUN pip install --upgrade pip
 RUN pip install -r requirements.txt
 
-# Use gunicorn in production
+# Run app with Gunicorn in production
 CMD ["gunicorn", "-w", "2", "-b", "0.0.0.0:10000", "app:app"]

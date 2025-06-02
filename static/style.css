@@ -146,3 +146,19 @@ h2, h3, p {
     margin-left: 0;
   }
 }
+
+.top-right-buttons {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  display: flex;
+  gap: 0.5rem;
+  z-index: 10;
+}
+
+.btn.small {
+  padding: 0.5rem 0.75rem;
+  font-size: 0.9rem;
+  width: auto;
+}
+

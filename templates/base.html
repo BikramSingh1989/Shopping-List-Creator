@@ -1,19 +1,22 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
   <title>{% block title %}Inventory App{% endblock %}</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
 </head>
 <body>
-  <div class="top-right-buttons">
-    <a href="/how-to-use" class="btn small">How to Use</a>
-    <a href="/logout" class="btn small">Logout</a>
-  </div>
-  <button class="toggle-btn" onclick="document.body.classList.toggle('dark')">🌗 Toggle Theme</button>
-  <div class="container">
+  <header>
+    <div class="top-right-buttons">
+      <a href="/how-to-use" class="btn small">How to Use</a>
+      <a href="/logout" class="btn small">Logout</a>
+    </div>
+    <button class="toggle-btn" onclick="document.body.classList.toggle('dark')">🌗 Toggle Theme</button>
+  </header>
+
+  <main class="container">
     {% block content %}{% endblock %}
-  </div>
+  </main>
 </body>
 </html>

@@ -1,3 +1,21 @@
+/* ===== Global Reset & Full-Page Background Fix ===== */
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  height: 100%;
+  background-color: var(--bg);
+  color: var(--text);
+  font-family: sans-serif;
+  transition: background-color 0.3s ease, color 0.3s ease;
+  overflow-x: hidden;
+}
+
 /* ===== Theme Variables ===== */
 :root {
   --bg: #f0f0f0;
@@ -15,22 +33,6 @@ body.dark {
   --accent-hover: #1177cc;
 }
 
-/* ===== Base Reset & Full-Page Background Fix ===== */
-html, body {
-  height: 100%;
-  margin: 0;
-  padding: 0;
-  font-family: sans-serif;
-  background-color: var(--bg);   /* ✅ Ensure entire page uses bg */
-  color: var(--text);
-  transition: background-color 0.3s ease, color 0.3s ease;
-}
-
-* {
-  background: transparent;
-  box-sizing: border-box;
-}
-
 /* ===== Layout Container ===== */
 .container {
   max-width: 800px;
@@ -38,7 +40,7 @@ html, body {
   padding: 1.5rem;
 }
 
-/* ===== Forms ===== */
+/* ===== Form Styles ===== */
 form {
   margin-bottom: 1.5rem;
 }
@@ -53,7 +55,6 @@ input, button, .btn {
   text-decoration: none;
 }
 
-/* Inputs */
 input {
   border: 1px solid #ccc;
   background: #fff;
@@ -66,7 +67,6 @@ input:focus {
   box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
 }
 
-/* Buttons */
 button, .btn {
   background-color: var(--accent);
   color: white;
@@ -79,14 +79,7 @@ button:hover, .btn:hover {
   background-color: var(--accent-hover);
 }
 
-/* Smaller buttons (top-right) */
-.btn.small {
-  padding: 0.5rem 0.75rem;
-  font-size: 0.9rem;
-  width: auto;
-}
-
-/* Top-right navigation */
+/* ===== Top-Right Navigation Buttons ===== */
 .top-right-buttons {
   position: absolute;
   top: 1rem;
@@ -96,7 +89,13 @@ button:hover, .btn:hover {
   z-index: 10;
 }
 
-/* Toggle button */
+.btn.small {
+  padding: 0.5rem 0.75rem;
+  font-size: 0.9rem;
+  width: auto;
+}
+
+/* ===== Dark Mode Toggle ===== */
 .toggle-btn {
   float: right;
   margin: 1rem;
@@ -108,7 +107,7 @@ button:hover, .btn:hover {
   cursor: pointer;
 }
 
-/* Inventory items */
+/* ===== Inventory Item Card ===== */
 .item {
   background: var(--card-bg);
   padding: 1rem;
@@ -126,7 +125,7 @@ button:hover, .btn:hover {
   font-size: 1.2rem;
 }
 
-/* Link styles */
+/* ===== Utility Links ===== */
 a {
   color: var(--accent);
   text-decoration: none;
@@ -136,7 +135,7 @@ a:hover {
   text-decoration: underline;
 }
 
-/* Responsive layout */
+/* ===== Mobile Adjustments ===== */
 @media (max-width: 600px) {
   .container {
     padding: 1rem;

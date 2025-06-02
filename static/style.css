@@ -238,3 +238,17 @@ h3 {
     text-align: center;
   }
 }
+
+.footer {
+  text-align: center;
+  padding: 1rem 0;
+  font-size: 0.9rem;
+  color: var(--text);
+  background-color: var(--bg);
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+  margin-top: 2rem;
+}
+
+body.dark .footer {
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}

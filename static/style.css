@@ -170,6 +170,13 @@ h3 {
   margin-bottom: 0.5rem;
 }
 
+/* ===== Clear Button Wrapper Fix ===== */
+.clear-btn-wrapper {
+  margin-top: 1.5rem;
+  text-align: right;
+}
+
+/* ===== How To Use Page ===== */
 .how-to-header {
   display: flex;
   justify-content: flex-end;
@@ -218,5 +225,9 @@ h3 {
 
   .container {
     padding: 1rem;
+  }
+
+  .clear-btn-wrapper {
+    text-align: center;
   }
 }

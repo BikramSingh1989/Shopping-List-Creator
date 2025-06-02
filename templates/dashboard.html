@@ -1,60 +1,66 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Dashboard</title>
-  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
-</head>
-<body>
-  <div class="top-right-buttons">
-    <a href="/how-to-use" class="btn small"><i class="fa-solid fa-circle-question"></i> How to Use</a>
-    <a href="/logout" class="btn small"><i class="fa-solid fa-right-from-bracket"></i> Logout</a>
-  </div>
+{% extends "base.html" %}
 
-  <button class="toggle-btn" onclick="document.body.classList.toggle('dark')">🌗 Toggle Theme</button>
+{% block title %}Dashboard - Inventory{% endblock %}
 
-  <div class="container">
-    <h2>Hello, {{ session.username }}!</h2>
+{% block content %}
+<h2>Welcome, {{ session['username'] }} 👋</h2>
 
-    <form method="post">
-      <label><i class="fa-solid fa-box"></i> Item Name</label>
-      <input name="name" placeholder="Item Name" required>
+<h3>Add Inventory Item</h3>
+<form method="POST">
+  <label for="name">Item Name</label>
+  <input type="text" name="name" placeholder="e.g. Canned Beans" required>
+  <small>Enter the name of the item you're tracking.</small>
 
-      <label><i class="fa-solid fa-sort-numeric-up"></i> Quantity</label>
-      <input name="quantity" type="number" placeholder="Quantity" required>
+  <label for="quantity">Quantity</label>
+  <input type="number" name="quantity" placeholder="e.g. 3" min="0" required>
+  <small>How many you currently have on hand.</small>
 
-      <label><i class="fa-solid fa-bell"></i> Par Level</label>
-      <input name="par" type="number" placeholder="Par Level" required>
+  <label for="par">Par Level</label>
+  <input type="number" name="par" placeholder="e.g. 5" min="0" required>
+  <small>Minimum amount you want to keep in stock.</small>
 
-      <label><i class="fa-solid fa-calendar-day"></i> Expiration Date (optional)</label>
-      <input name="expiration" type="date" placeholder="Expiration Date">
+  <label for="expiration">Expiration Date</label>
+  <input type="date" name="expiration">
+  <small>Optional: best-by or expiration date (if applicable).</small>
 
-      <button type="submit"><i class="fa-solid fa-plus"></i> Add Item</button>
-    </form>
+  <button type="submit">➕ Add Item</button>
+</form>
 
-    <h3>Inventory</h3>
-    {% for item in items %}
-      <div class="item fade-in">
-        <strong>{{ item.name }}</strong>: {{ item.quantity }} (Par: {{ item.par }})
-        {% if item.expiration %}<br><small>Expires: {{ item.expiration.strftime('%Y-%m-%d') }}</small>{% endif %}
-        <a href="/delete/{{ item._id }}"><i class="fa-solid fa-trash"></i></a>
+<h3>Your Inventory</h3>
+{% if items %}
+  {% for item in items %}
+    <div class="item">
+      <div>
+        <strong>{{ item.name }}</strong><br>
+        Quantity: {{ item.quantity }}<br>
+        Par: {{ item.par }}<br>
+        {% if item.expiration %}
+          Exp: {{ item.expiration.strftime('%Y-%m-%d') }}
+        {% else %}
+          Exp: N/A
+        {% endif %}
       </div>
-    {% else %}
-      <p>No items found.</p>
-    {% endfor %}
+      <a href="/delete/{{ item._id }}" onclick="return confirm('Delete this item?');">🗑️</a>
+    </div>
+  {% endfor %}
+{% else %}
+  <p>You have no items in inventory. Start adding!</p>
+{% endif %}
 
-    <a href="/clear-inventory" class="btn clear" onclick="return confirm('Clear entire inventory?');">
-      <i class="fa-solid fa-broom"></i> Clear Inventory
-    </a>
+<div class="clear-btn-wrapper">
+  <a href="/clear-inventory" class="btn" onclick="return confirm('Are you sure you want to clear your entire inventory?');">
+    🧹 Clear Inventory
+  </a>
+</div>
 
-    <h3>Shopping List</h3>
+<h3>Shopping List</h3>
+{% if shopping %}
+  <ul>
     {% for item in shopping %}
-      <p>🛒 {{ item.name }} (Need {{ item.par - item.quantity }})</p>
-    {% else %}
-      <p>All stocked up!</p>
+      <li>🛒 {{ item.name }} (Need {{ item.par - item.quantity }})</li>
     {% endfor %}
-  </div>
-</body>
-</html>
+  </ul>
+{% else %}
+  <p>🎉 You're fully stocked!</p>
+{% endif %}
+{% endblock %}

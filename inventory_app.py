@@ -4,10 +4,10 @@ import bcrypt
 from bson.objectid import ObjectId
 
 app = Flask(__name__)
-app.secret_key = 'supersecretkey'  # Use a secure key in production
+app.secret_key = '15e0bcdf3bff4760a718bd37bbacd103'  
 
 # MongoDB Setup
-client = pymongo.MongoClient("mongodb+srv://<username>:<password>@<cluster>.mongodb.net/?retryWrites=true&w=majority")
+client = pymongo.MongoClient("mongodb+srv://user:testpassword@shopping-list-creator.3r3nujk.mongodb.net/")
 db = client.inventoryApp
 users_col = db.users
 items_col = db.items

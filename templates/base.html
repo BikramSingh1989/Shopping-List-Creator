@@ -1,22 +1,37 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="UTF-8">
   <title>{% block title %}Inventory App{% endblock %}</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
-  <header>
-    <div class="top-right-buttons">
-      <a href="/how-to-use" class="btn small">How to Use</a>
-      <a href="/logout" class="btn small">Logout</a>
-    </div>
-    <button class="toggle-btn" onclick="document.body.classList.toggle('dark')">🌗 Toggle Theme</button>
-  </header>
+  <div class="top-right-buttons">
+    <a href="/how-to-use" class="btn small">How to Use</a>
+    <a href="/logout" class="btn small">Logout</a>
+    <button class="toggle-btn" onclick="toggleTheme()">🌗 Toggle Theme</button>
+  </div>
 
-  <main class="container">
+  <div class="container">
     {% block content %}{% endblock %}
-  </main>
+  </div>
+
+  <script>
+    // Persist dark mode using localStorage
+    function toggleTheme() {
+      document.body.classList.toggle("dark");
+      const isDark = document.body.classList.contains("dark");
+      localStorage.setItem("theme", isDark ? "dark" : "light");
+    }
+
+    // On load, apply saved theme
+    window.addEventListener("DOMContentLoaded", () => {
+      const savedTheme = localStorage.getItem("theme");
+      if (savedTheme === "dark") {
+        document.body.classList.add("dark");
+      }
+    });
+  </script>
 </body>
 </html>

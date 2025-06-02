@@ -97,34 +97,39 @@ button:hover, .btn:hover {
   to { opacity: 1; }
 }
 
-/* ===== Top-Right Navigation Buttons ===== */
+/* ===== Top-Right Navigation Buttons (including toggle) ===== */
 .top-right-buttons {
   position: absolute;
   top: 1rem;
   right: 1rem;
   display: flex;
-  gap: 0.75rem;
+  gap: 0.5rem;
   z-index: 10;
   flex-wrap: wrap;
+  justify-content: flex-end;
+  align-items: center;
 }
 
-.btn.small {
+.btn.small,
+.top-right-buttons .toggle-btn {
   padding: 0.5rem 0.75rem;
   font-size: 0.9rem;
-  width: auto;
+  border-radius: 5px;
   white-space: nowrap;
 }
 
-/* ===== Dark Mode Toggle ===== */
-.toggle-btn {
-  float: right;
-  margin: 1rem;
-  padding: 0.5rem 1rem;
-  border: none;
+/* ===== Toggle Theme Button ===== */
+.top-right-buttons .toggle-btn {
+  border: 1px solid var(--accent);
   background: none;
   color: var(--text);
-  font-size: 1rem;
   cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.top-right-buttons .toggle-btn:hover {
+  background-color: var(--accent);
+  color: white;
 }
 
 /* ===== Inventory Item Card ===== */
@@ -205,12 +210,14 @@ h3 {
 /* ===== Mobile Adjustments ===== */
 @media (max-width: 600px) {
   .top-right-buttons {
-    justify-content: flex-end;
-    flex-direction: row;
+    flex-direction: column;
+    align-items: flex-end;
   }
 
-  .btn.small {
-    margin-bottom: 0.5rem;
+  .btn.small,
+  .top-right-buttons .toggle-btn {
+    width: auto;
+    margin-bottom: 0.25rem;
   }
 
   .item {

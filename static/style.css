@@ -14,6 +14,7 @@ html, body {
   font-family: sans-serif;
   transition: background-color 0.3s ease, color 0.3s ease;
   overflow-x: hidden;
+  line-height: 1.6;
 }
 
 /* ===== Theme Variables ===== */
@@ -35,18 +36,18 @@ body.dark {
 
 /* ===== Layout Container ===== */
 .container {
-  max-width: 800px;
-  margin: 2rem auto;
-  padding: 1.5rem;
+  max-width: 900px;
+  margin: 3rem auto;
+  padding: 2rem;
 }
 
 /* ===== Form Styles ===== */
 form {
-  margin-bottom: 1.5rem;
+  margin-bottom: 2rem;
 }
 
 input, button, .btn {
-  padding: 0.75rem;
+  padding: 0.75rem 1rem;
   margin: 0.5rem 0;
   width: 100%;
   font-size: 1rem;
@@ -85,14 +86,16 @@ button:hover, .btn:hover {
   top: 1rem;
   right: 1rem;
   display: flex;
-  gap: 0.5rem;
+  gap: 0.75rem;
   z-index: 10;
+  flex-wrap: wrap;
 }
 
 .btn.small {
   padding: 0.5rem 0.75rem;
   font-size: 0.9rem;
   width: auto;
+  white-space: nowrap;
 }
 
 /* ===== Dark Mode Toggle ===== */
@@ -110,10 +113,10 @@ button:hover, .btn:hover {
 /* ===== Inventory Item Card ===== */
 .item {
   background: var(--card-bg);
-  padding: 1rem;
-  margin: 0.5rem 0;
+  padding: 1.25rem;
+  margin: 1rem 0;
   border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.08);
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -138,19 +141,12 @@ a:hover {
 /* ===== Mobile Adjustments ===== */
 @media (max-width: 600px) {
   .top-right-buttons {
-    flex-direction: row;
-    flex-wrap: wrap;
     justify-content: flex-end;
+    flex-direction: row;
   }
 
   .btn.small {
     margin-bottom: 0.5rem;
-  }
-}
-
-  .top-right-buttons {
-    flex-direction: column;
-    align-items: flex-end;
   }
 
   .item {
@@ -161,5 +157,9 @@ a:hover {
   .item a {
     margin-top: 0.5rem;
     margin-left: 0;
+  }
+
+  .container {
+    padding: 1rem;
   }
 }

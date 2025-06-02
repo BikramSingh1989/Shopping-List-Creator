@@ -1,27 +1,60 @@
-<form method="post">
-  <label>
-    Item Name:
-    <input name="name" placeholder="Item Name" required>
-    <small>e.g., Milk, Rice, Batteries</small>
-  </label>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+  <div class="top-right-buttons">
+    <a href="/how-to-use" class="btn small"><i class="fa-solid fa-circle-question"></i> How to Use</a>
+    <a href="/logout" class="btn small"><i class="fa-solid fa-right-from-bracket"></i> Logout</a>
+  </div>
 
-  <label>
-    Quantity:
-    <input name="quantity" type="number" placeholder="Quantity" required>
-    <small>Current number you have on hand</small>
-  </label>
+  <button class="toggle-btn" onclick="document.body.classList.toggle('dark')">🌗 Toggle Theme</button>
 
-  <label>
-    Par Level:
-    <input name="par" type="number" placeholder="Par Level" required>
-    <small>Minimum quantity before restock is needed</small>
-  </label>
+  <div class="container">
+    <h2>Hello, {{ session.username }}!</h2>
 
-  <label>
-    Expiration Date:
-    <input name="expiration" type="date">
-    <small>Optional. Used for tracking perishables (e.g., 2025-12-31)</small>
-  </label>
+    <form method="post">
+      <label><i class="fa-solid fa-box"></i> Item Name</label>
+      <input name="name" placeholder="Item Name" required>
 
-  <button type="submit">Add Item</button>
-</form>
+      <label><i class="fa-solid fa-sort-numeric-up"></i> Quantity</label>
+      <input name="quantity" type="number" placeholder="Quantity" required>
+
+      <label><i class="fa-solid fa-bell"></i> Par Level</label>
+      <input name="par" type="number" placeholder="Par Level" required>
+
+      <label><i class="fa-solid fa-calendar-day"></i> Expiration Date (optional)</label>
+      <input name="expiration" type="date" placeholder="Expiration Date">
+
+      <button type="submit"><i class="fa-solid fa-plus"></i> Add Item</button>
+    </form>
+
+    <h3>Inventory</h3>
+    {% for item in items %}
+      <div class="item fade-in">
+        <strong>{{ item.name }}</strong>: {{ item.quantity }} (Par: {{ item.par }})
+        {% if item.expiration %}<br><small>Expires: {{ item.expiration.strftime('%Y-%m-%d') }}</small>{% endif %}
+        <a href="/delete/{{ item._id }}"><i class="fa-solid fa-trash"></i></a>
+      </div>
+    {% else %}
+      <p>No items found.</p>
+    {% endfor %}
+
+    <a href="/clear-inventory" class="btn clear" onclick="return confirm('Clear entire inventory?');">
+      <i class="fa-solid fa-broom"></i> Clear Inventory
+    </a>
+
+    <h3>Shopping List</h3>
+    {% for item in shopping %}
+      <p>🛒 {{ item.name }} (Need {{ item.par - item.quantity }})</p>
+    {% else %}
+      <p>All stocked up!</p>
+    {% endfor %}
+  </div>
+</body>
+</html>

@@ -11,7 +11,7 @@ html, body {
   height: 100%;
   background-color: var(--bg);
   color: var(--text);
-  font-family: sans-serif;
+  font-family: 'Segoe UI', sans-serif;
   transition: background-color 0.3s ease, color 0.3s ease;
   overflow-x: hidden;
   line-height: 1.6;
@@ -20,7 +20,7 @@ html, body {
 /* ===== Theme Variables ===== */
 :root {
   --bg: #f0f0f0;
-  --text: #000000;
+  --text: #000;
   --card-bg: #ffffff;
   --accent: #007bff;
   --accent-hover: #0056b3;
@@ -46,9 +46,15 @@ form {
   margin-bottom: 2rem;
 }
 
+label {
+  display: block;
+  margin: 0.75rem 0 0.25rem;
+  font-weight: 600;
+}
+
 input, button, .btn {
   padding: 0.75rem 1rem;
-  margin: 0.5rem 0;
+  margin: 0.25rem 0 1rem;
   width: 100%;
   font-size: 1rem;
   border-radius: 5px;
@@ -73,11 +79,22 @@ button, .btn {
   color: white;
   border: none;
   cursor: pointer;
-  transition: background-color 0.3s ease;
+  transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
 button:hover, .btn:hover {
   background-color: var(--accent-hover);
+  transform: translateY(-2px);
+}
+
+/* ===== Animation ===== */
+.fade-in {
+  animation: fadeIn 0.5s ease-in forwards;
+  opacity: 0;
+}
+
+@keyframes fadeIn {
+  to { opacity: 1; }
 }
 
 /* ===== Top-Right Navigation Buttons ===== */
@@ -121,16 +138,20 @@ button:hover, .btn:hover {
   justify-content: space-between;
   align-items: center;
   flex-wrap: wrap;
+  transition: transform 0.2s ease;
 }
 
-/* Add extra space after last inventory item */
-.item:last-of-type {
-  margin-bottom: 2.5rem;
+.item:hover {
+  transform: scale(1.01);
 }
 
 .item a {
   margin-left: 1rem;
   font-size: 1.2rem;
+}
+
+.item:last-of-type {
+  margin-bottom: 2.5rem;
 }
 
 /* ===== Utility Links ===== */
@@ -173,7 +194,6 @@ h3 {
 .how-to-content li {
   margin-bottom: 0.75rem;
 }
-
 
 /* ===== Mobile Adjustments ===== */
 @media (max-width: 600px) {

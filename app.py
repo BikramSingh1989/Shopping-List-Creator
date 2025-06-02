@@ -5,9 +5,9 @@ from datetime import datetime
 import os
 
 app = Flask(__name__)
-app.secret_key = os.getenv("SECRET_KEY")
+app.secret_key = os.getenv("SECRET_KEY", "dev-secret")
 
-# Ensure this env variable is properly set in Render or .env
+# Mongo URI check
 mongo_uri = os.getenv("MONGO_URI")
 if not mongo_uri or not mongo_uri.startswith(("mongodb://", "mongodb+srv://")):
     raise ValueError("Invalid or missing MONGO_URI. Must begin with 'mongodb://' or 'mongodb+srv://'")
@@ -15,6 +15,10 @@ if not mongo_uri or not mongo_uri.startswith(("mongodb://", "mongodb+srv://")):
 client = MongoClient(mongo_uri)
 db = client.inventory_app
 users_col = db.users
+
+@app.route("/")
+def index():
+    return redirect("/login")
 
 @app.route("/register", methods=["GET", "POST"])
 def register():
@@ -105,4 +109,5 @@ def how_to_use():
     return render_template("how_to_use.html")
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    port = int(os.environ.get("PORT", 10000))
+    app.run(debug=True, host="0.0.0.0", port=port)

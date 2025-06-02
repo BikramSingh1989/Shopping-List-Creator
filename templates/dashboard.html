@@ -2,6 +2,7 @@
 {% block title %}Dashboard{% endblock %}
 {% block content %}
 <h2>Hello, {{ session.username }}!</h2>
+
 <form method="post">
   <input name="name" placeholder="Item Name" required>
   <input name="quantity" type="number" placeholder="Quantity" required>
@@ -10,14 +11,21 @@
 </form>
 
 <h3>Inventory</h3>
-{% for item in items %}
-  <div class="item">
-    <strong>{{ item.name }}</strong>: {{ item.quantity }} (Par: {{ item.par }})
-    <a href="/delete/{{ item._id }}">🗑️</a>
-  </div>
+
+{% if items %}
+  {% for item in items %}
+    <div class="item">
+      <strong>{{ item.name }}</strong>: {{ item.quantity }} (Par: {{ item.par }})
+      <a href="/delete/{{ item._id }}">🗑️</a>
+    </div>
+  {% endfor %}
+  
+  <a href="/clear-inventory" class="btn" onclick="return confirm('Are you sure you want to clear your entire inventory?');">
+    🧹 Clear Inventory
+  </a>
 {% else %}
   <p>No items found.</p>
-{% endfor %}
+{% endif %}
 
 <h3>Shopping List</h3>
 {% for item in shopping %}
@@ -26,5 +34,5 @@
   <p>All stocked up!</p>
 {% endfor %}
 
-<a href="/logout">Logout</a>
+<a href="/logout" class="btn">Logout</a>
 {% endblock %}

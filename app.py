@@ -62,6 +62,13 @@ def delete_item(item_id):
     items_col.delete_one({'_id': ObjectId(item_id)})
     return redirect('/dashboard')
 
+@app.route('/clear-inventory')
+def clear_inventory():
+    if 'username' in session:
+        items_col.delete_many({'user': session['username']})
+    return redirect('/dashboard')
+
+
 @app.route('/logout')
 def logout():
     session.clear()

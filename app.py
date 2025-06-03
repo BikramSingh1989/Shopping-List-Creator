@@ -1,7 +1,7 @@
 from flask import Flask, render_template, request, redirect, session
 from pymongo import MongoClient
 from bson.objectid import ObjectId
-from datetime import datetime, timezone
+from datetime import datetime
 import os
 
 app = Flask(__name__)
@@ -25,17 +25,10 @@ def register():
     if request.method == "POST":
         username = request.form['username']
         password = request.form['password']
-
         if users_col.find_one({'username': username}):
             return "User already exists"
-
-        users_col.insert_one({
-            'username': username,
-            'password': password,
-            'items': []
-        })
+        users_col.insert_one({'username': username, 'password': password, 'items': []})
         return redirect("/login")
-
     return render_template("register.html")
 
 @app.route("/login", methods=["GET", "POST"])
@@ -43,14 +36,11 @@ def login():
     if request.method == "POST":
         username = request.form['username']
         password = request.form['password']
-
         user = users_col.find_one({'username': username, 'password': password})
         if user:
             session['username'] = username
             return redirect("/dashboard")
-
         return "Invalid credentials"
-
     return render_template("login.html")
 
 @app.route("/dashboard", methods=["GET", "POST"])
@@ -71,7 +61,7 @@ def dashboard():
         expiration_date = None
         if expiration_str:
             try:
-                expiration_date = datetime.strptime(expiration_str, '%Y-%m-%d').replace(tzinfo=timezone.utc)
+                expiration_date = datetime.strptime(expiration_str, '%Y-%m-%d')
             except ValueError:
                 return "Invalid expiration date format (expected YYYY-MM-DD)"
 
@@ -94,11 +84,11 @@ def dashboard():
 
         return redirect("/dashboard")
 
-    items = sorted(user.get('items', []), key=lambda x: x['name'].lower())
+    items = user.get('items', [])
     for item in items:
         exp = item.get('expiration')
         if exp:
-            days_left = (exp - datetime.now(timezone.utc)).days
+            days_left = (exp - datetime.now()).days  # <-- FIXED timezone issue
             item['days_left'] = days_left
         else:
             item['days_left'] = None
@@ -116,13 +106,23 @@ def delete(item_id):
     )
     return redirect("/dashboard")
 
+@app.route("/edit/<item_id>")
+def edit_item(item_id):
+    if 'username' not in session:
+        return redirect("/login")
+
+    user = users_col.find_one({'username': session['username']})
+    item = next((item for item in user.get('items', []) if str(item['_id']) == item_id), None)
+
+    if not item:
+        return "Item not found"
+
+    return render_template("edit_item.html", item=item)
+
 @app.route("/clear-inventory")
 def clear_inventory():
     if 'username' in session:
-        users_col.update_one(
-            {'username': session['username']},
-            {'$set': {'items': []}}
-        )
+        users_col.update_one({'username': session['username']}, {'$set': {'items': []}})
     return redirect("/dashboard")
 
 @app.route("/shopping-list")
@@ -131,8 +131,11 @@ def shopping_list():
         return redirect("/login")
 
     user = users_col.find_one({'username': session['username']})
-    items = sorted(user.get('items', []), key=lambda x: x['name'].lower())
+    items = user.get('items', [])
     shopping = [item for item in items if item['quantity'] < item['par']]
+
+    # Sort by name for shopping list
+    shopping.sort(key=lambda x: x['name'].lower())
     return render_template("shopping_list.html", shopping=shopping)
 
 @app.route("/logout")

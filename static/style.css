@@ -1,4 +1,4 @@
-/* ===== Global Reset & Full-Page Background Fix ===== */
+/* ===== Global Reset ===== */
 *,
 *::before,
 *::after {
@@ -34,44 +34,54 @@ body.dark {
   --accent-hover: #1177cc;
 }
 
-/* ===== Layout Container ===== */
-.container {
-  max-width: 900px;
-  margin: 2rem auto;
-  padding: 1rem;
+body.sepia {
+  --bg: #f4ecd8;
+  --text: #3e2f1c;
+  --card-bg: #fefaf0;
+  --accent: #b7791f;
+  --accent-hover: #8b5e1a;
 }
 
-/* ===== Top Navigation ===== */
+/* ===== Fixed Top Navigation Bar ===== */
 .top-nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background: var(--card-bg);
+  padding: 0.5rem 1rem;
   display: flex;
   justify-content: flex-end;
+  align-items: center;
   gap: 0.5rem;
-  padding: 0.5rem 1rem;
-  background-color: var(--card-bg);
-  border-bottom: 1px solid #ccc;
-  flex-wrap: nowrap; /* <-- Force single row */
-  overflow-x: auto;   /* Handle narrow screens */
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  z-index: 1000;
 }
 
-.top-nav .btn {
-  padding: 0.4rem 0.7rem;
-  font-size: 0.9rem;
-  white-space: nowrap;
-  flex-shrink: 0;
-}
-
-/* ===== Toggle Theme Button ===== */
-.toggle-btn {
-  background: none;
+.top-nav a,
+.top-nav button {
+  padding: 0.25rem 0.75rem;
+  font-size: 0.8rem;
   border: 1px solid var(--accent);
+  background: none;
   color: var(--text);
   cursor: pointer;
-  transition: background-color 0.3s ease;
+  border-radius: 4px;
+  white-space: nowrap;
+  transition: background-color 0.2s ease;
 }
 
-.toggle-btn:hover {
+.top-nav a:hover,
+.top-nav button:hover {
   background-color: var(--accent);
   color: white;
+}
+
+/* ===== Page Container (accounts for fixed nav height) ===== */
+.container {
+  max-width: 900px;
+  margin: 5rem auto 3rem;
+  padding: 1rem 2rem;
 }
 
 /* ===== Form Styles ===== */
@@ -83,11 +93,12 @@ label {
   display: block;
   margin: 0.5rem 0 0.25rem;
   font-weight: 600;
+  font-size: 0.95rem;
 }
 
-input, button, .btn, select {
-  padding: 0.65rem 1rem;
-  margin: 0.25rem 0 0.75rem;
+input, select, button, .btn {
+  padding: 0.5rem 1rem;
+  margin: 0.2rem 0 0.8rem;
   width: 100%;
   font-size: 1rem;
   border-radius: 5px;
@@ -95,7 +106,7 @@ input, button, .btn, select {
   text-decoration: none;
 }
 
-input {
+input, select {
   border: 1px solid #ccc;
   background: #fff;
   color: #000;
@@ -120,13 +131,23 @@ button:hover, .btn:hover {
   transform: translateY(-2px);
 }
 
-/* ===== Inventory Item Card ===== */
+/* ===== Fade-In Animation ===== */
+.fade-in {
+  animation: fadeIn 0.5s ease-in forwards;
+  opacity: 0;
+}
+
+@keyframes fadeIn {
+  to { opacity: 1; }
+}
+
+/* ===== Inventory Card ===== */
 .item {
   background: var(--card-bg);
-  padding: 1.25rem;
-  margin: 1rem 0;
+  padding: 1rem;
+  margin: 0.75rem 0;
   border-radius: 8px;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  box-shadow: 0 2px 6px rgba(0,0,0,0.08);
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -143,11 +164,20 @@ button:hover, .btn:hover {
   font-size: 1.2rem;
 }
 
-.item:last-of-type {
-  margin-bottom: 2.5rem;
+/* ===== Utility Links ===== */
+a {
+  color: var(--accent);
+  text-decoration: none;
 }
 
-/* ===== Section Spacing ===== */
+a:hover {
+  text-decoration: underline;
+}
+
+h2 {
+  margin-top: 1.5rem;
+}
+
 h3 {
   margin-top: 2rem;
   margin-bottom: 0.5rem;
@@ -159,13 +189,13 @@ h3 {
   text-align: right;
 }
 
-/* ===== How To Use Page ===== */
-.how-to-header {
-  display: flex;
-  justify-content: flex-end;
-  margin-bottom: 1rem;
+/* ===== Shopping List ===== */
+.shopping-list li {
+  font-size: 14px;
+  margin-bottom: 0.5rem;
 }
 
+/* ===== How-to Page ===== */
 .how-to-content {
   background-color: var(--card-bg);
   padding: 1.5rem;
@@ -185,73 +215,60 @@ h3 {
   margin-bottom: 0.75rem;
 }
 
-/* ===== Shopping List Page ===== */
-.shopping-list li {
-  font-size: 14px;
-  margin-bottom: 0.5rem;
-}
-
-/* ===== Modal Styles ===== */
-.modal {
-  position: fixed;
-  top: 0; left: 0;
-  width: 100%; height: 100%;
-  background-color: rgba(0,0,0,0.5);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.modal-content {
-  background: var(--card-bg);
-  padding: 2rem;
-  border-radius: 8px;
-  width: 90%;
-  max-width: 500px;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-}
-
-.close {
-  position: absolute;
-  top: 1rem;
-  right: 1.5rem;
-  font-size: 1.5rem;
-  cursor: pointer;
-}
-
 /* ===== Footer ===== */
 .footer {
   text-align: center;
   padding: 1rem 0;
-  font-size: 0.9rem;
-  color: #888;
+  font-size: 0.85rem;
+  color: var(--text);
+  background: var(--card-bg);
 }
 
-/* ===== Animation ===== */
-.fade-in {
-  animation: fadeIn 0.5s ease-in forwards;
-  opacity: 0;
+/* ===== Modal ===== */
+.modal {
+  position: fixed;
+  z-index: 1001;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0,0,0,0.4);
 }
 
-@keyframes fadeIn {
-  to { opacity: 1; }
+.modal-content {
+  background-color: var(--card-bg);
+  margin: 10% auto;
+  padding: 2rem;
+  border: 1px solid #888;
+  width: 90%;
+  max-width: 500px;
+  border-radius: 10px;
 }
 
-/* ===== Mobile Adjustments ===== */
-@media (max-width: 600px) {
+.modal .close {
+  float: right;
+  font-size: 1.2rem;
+  cursor: pointer;
+}
+
+/* ===== Responsive Design ===== */
+@media (max-width: 768px) {
   .container {
     padding: 1rem;
+    margin-top: 5rem;
   }
 
   .top-nav {
-    justify-content: center;
     flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.25rem;
   }
 
-  .top-nav .btn {
-    margin: 0.2rem;
-    width: auto;
-    flex: 0 1 auto;
+  .top-nav a,
+  .top-nav button {
+    font-size: 0.75rem;
+    padding: 0.25rem 0.5rem;
   }
 
   .item {
@@ -262,9 +279,5 @@ h3 {
   .item a {
     margin-top: 0.5rem;
     margin-left: 0;
-  }
-
-  .clear-btn-wrapper {
-    text-align: center;
   }
 }

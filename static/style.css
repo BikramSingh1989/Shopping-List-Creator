@@ -9,9 +9,9 @@
 
 html, body {
   height: 100%;
+  font-family: 'Segoe UI', sans-serif;
   background-color: var(--bg);
   color: var(--text);
-  font-family: 'Segoe UI', sans-serif;
   transition: background-color 0.3s ease, color 0.3s ease;
   overflow-x: hidden;
   line-height: 1.6;
@@ -19,94 +19,88 @@ html, body {
 
 /* ===== Theme Variables ===== */
 :root {
-  --bg: #f0f0f0;
-  --text: #000;
-  --card-bg: #ffffff;
+  --bg: #f8f9fa;
+  --text: #111;
+  --card-bg: #fff;
   --accent: #007bff;
   --accent-hover: #0056b3;
 }
 
 body.dark {
-  --bg: #1a1a1a;
+  --bg: #1e1e1e;
   --text: #f1f1f1;
-  --card-bg: #2a2a2a;
+  --card-bg: #2e2e2e;
   --accent: #3399ff;
   --accent-hover: #1177cc;
 }
 
-body.sepia {
-  --bg: #f4ecd8;
-  --text: #3e2f1c;
-  --card-bg: #fefaf0;
-  --accent: #b7791f;
-  --accent-hover: #8b5e1a;
+/* ===== Container ===== */
+.container {
+  max-width: 900px;
+  margin: 3rem auto;
+  padding: 2rem;
 }
 
-/* ===== Fixed Top Navigation Bar ===== */
+/* ===== Top Navigation Buttons (2x2 Grid) ===== */
 .top-nav {
   position: fixed;
   top: 0;
   left: 0;
-  width: 100%;
-  background: var(--card-bg);
-  padding: 0.5rem 1rem;
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
+  right: 0;
+  display: grid;
+  grid-template-columns: repeat(2, auto);
+  justify-content: end;
   gap: 0.5rem;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  padding: 0.75rem 1rem;
+  background-color: var(--card-bg);
+  box-shadow: 0 1px 5px rgba(0, 0, 0, 0.1);
   z-index: 1000;
 }
 
-.top-nav a,
-.top-nav button {
-  padding: 0.25rem 0.75rem;
+.top-nav .btn,
+.top-nav .toggle-btn {
+  padding: 0.4rem 0.75rem;
   font-size: 0.8rem;
+  border-radius: 4px;
   border: 1px solid var(--accent);
   background: none;
   color: var(--text);
   cursor: pointer;
-  border-radius: 4px;
+  text-align: center;
   white-space: nowrap;
-  transition: background-color 0.2s ease;
+  transition: background-color 0.2s;
 }
 
-.top-nav a:hover,
-.top-nav button:hover {
+.top-nav .btn:hover,
+.top-nav .toggle-btn:hover {
   background-color: var(--accent);
   color: white;
 }
 
-/* ===== Page Container (accounts for fixed nav height) ===== */
-.container {
-  max-width: 900px;
-  margin: 5rem auto 3rem;
-  padding: 1rem 2rem;
-}
-
-/* ===== Form Styles ===== */
+/* ===== Form ===== */
 form {
+  margin-top: 5rem; /* extra spacing for fixed top nav */
   margin-bottom: 2rem;
 }
 
 label {
   display: block;
-  margin: 0.5rem 0 0.25rem;
-  font-weight: 600;
-  font-size: 0.95rem;
+  margin: 0.75rem 0 0.25rem;
+  font-weight: bold;
+}
+
+.input-desc {
+  font-size: 0.85rem;
+  color: #666;
+  margin-bottom: 0.5rem;
 }
 
 input, select, button, .btn {
-  padding: 0.5rem 1rem;
-  margin: 0.2rem 0 0.8rem;
   width: 100%;
+  padding: 0.65rem 1rem;
+  margin-bottom: 1rem;
   font-size: 1rem;
   border-radius: 5px;
-  text-align: center;
-  text-decoration: none;
-}
-
-input, select {
   border: 1px solid #ccc;
   background: #fff;
   color: #000;
@@ -115,48 +109,37 @@ input, select {
 input:focus, select:focus {
   outline: none;
   border-color: var(--accent);
-  box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
+  box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.2);
 }
 
-button, .btn {
+button {
   background-color: var(--accent);
   color: white;
   border: none;
   cursor: pointer;
-  transition: background-color 0.3s ease, transform 0.2s ease;
+  transition: background-color 0.3s ease;
 }
 
-button:hover, .btn:hover {
+button:hover {
   background-color: var(--accent-hover);
-  transform: translateY(-2px);
 }
 
-/* ===== Fade-In Animation ===== */
-.fade-in {
-  animation: fadeIn 0.5s ease-in forwards;
-  opacity: 0;
-}
-
-@keyframes fadeIn {
-  to { opacity: 1; }
-}
-
-/* ===== Inventory Card ===== */
+/* ===== Inventory Items ===== */
 .item {
   background: var(--card-bg);
   padding: 1rem;
-  margin: 0.75rem 0;
+  margin-bottom: 1rem;
   border-radius: 8px;
   box-shadow: 0 2px 6px rgba(0,0,0,0.08);
   display: flex;
   justify-content: space-between;
-  align-items: center;
+  align-items: flex-start;
   flex-wrap: wrap;
-  transition: transform 0.2s ease;
 }
 
 .item:hover {
   transform: scale(1.01);
+  transition: transform 0.2s;
 }
 
 .item a {
@@ -164,38 +147,23 @@ button:hover, .btn:hover {
   font-size: 1.2rem;
 }
 
-/* ===== Utility Links ===== */
-a {
-  color: var(--accent);
-  text-decoration: none;
-}
-
-a:hover {
-  text-decoration: underline;
-}
-
-h2 {
-  margin-top: 1.5rem;
-}
-
-h3 {
-  margin-top: 2rem;
-  margin-bottom: 0.5rem;
-}
-
-/* ===== Clear Button Wrapper ===== */
-.clear-btn-wrapper {
-  margin-top: 1.5rem;
-  text-align: right;
-}
-
 /* ===== Shopping List ===== */
+.shopping-list {
+  margin-top: 2rem;
+}
+
 .shopping-list li {
   font-size: 14px;
   margin-bottom: 0.5rem;
 }
 
-/* ===== How-to Page ===== */
+/* ===== Clear Button Wrapper ===== */
+.clear-btn-wrapper {
+  margin-top: 2rem;
+  text-align: right;
+}
+
+/* ===== How-To Section ===== */
 .how-to-content {
   background-color: var(--card-bg);
   padding: 1.5rem;
@@ -203,72 +171,52 @@ h3 {
   box-shadow: 0 2px 5px rgba(0,0,0,0.1);
 }
 
-.how-to-content h2 {
-  margin-bottom: 1rem;
+/* ===== Modal ===== */
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: none;
+  background: rgba(0,0,0,0.6);
+  z-index: 2000;
+  justify-content: center;
+  align-items: center;
 }
 
-.how-to-content ol {
-  padding-left: 1.2rem;
-}
-
-.how-to-content li {
-  margin-bottom: 0.75rem;
+.modal-content {
+  background: var(--card-bg);
+  padding: 2rem;
+  border-radius: 8px;
+  width: 90%;
+  max-width: 500px;
 }
 
 /* ===== Footer ===== */
 .footer {
+  margin-top: 4rem;
   text-align: center;
-  padding: 1rem 0;
-  font-size: 0.85rem;
-  color: var(--text);
-  background: var(--card-bg);
+  font-size: 0.9rem;
+  color: #999;
 }
 
-/* ===== Modal ===== */
-.modal {
-  position: fixed;
-  z-index: 1001;
-  left: 0;
-  top: 0;
-  width: 100%;
-  height: 100%;
-  overflow: auto;
-  background-color: rgba(0,0,0,0.4);
-}
+/* ===== Responsive ===== */
+@media (max-width: 600px) {
+  .top-nav {
+    grid-template-columns: 1fr 1fr;
+    justify-content: center;
+    padding: 0.5rem;
+  }
 
-.modal-content {
-  background-color: var(--card-bg);
-  margin: 10% auto;
-  padding: 2rem;
-  border: 1px solid #888;
-  width: 90%;
-  max-width: 500px;
-  border-radius: 10px;
-}
+  .top-nav .btn,
+  .top-nav .toggle-btn {
+    font-size: 0.75rem;
+    padding: 0.4rem 0.5rem;
+  }
 
-.modal .close {
-  float: right;
-  font-size: 1.2rem;
-  cursor: pointer;
-}
-
-/* ===== Responsive Design ===== */
-@media (max-width: 768px) {
   .container {
     padding: 1rem;
-    margin-top: 5rem;
-  }
-
-  .top-nav {
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 0.25rem;
-  }
-
-  .top-nav a,
-  .top-nav button {
-    font-size: 0.75rem;
-    padding: 0.25rem 0.5rem;
   }
 
   .item {
@@ -279,5 +227,9 @@ h3 {
   .item a {
     margin-top: 0.5rem;
     margin-left: 0;
+  }
+
+  .clear-btn-wrapper {
+    text-align: center;
   }
 }

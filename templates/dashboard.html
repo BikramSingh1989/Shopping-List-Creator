@@ -7,12 +7,15 @@
 <form method="POST" class="fade-in">
   <label for="name">Item Name</label>
   <input type="text" name="name" id="name" required>
+  <div class="input-desc">Name of the item (e.g., Milk, Eggs, Rice).</div>
 
   <label for="quantity">Quantity</label>
   <input type="number" name="quantity" id="quantity" required>
+  <div class="input-desc">How many you currently have on hand.</div>
 
   <label for="par">Par Level</label>
   <input type="number" name="par" id="par" required>
+  <div class="input-desc">Minimum quantity before it goes on the shopping list.</div>
 
   <label for="category">Category</label>
   <select name="category" id="category" required>
@@ -33,9 +36,11 @@
     <option value="Snacks">Snacks</option>
     <option value="Drinks">Drinks</option>
   </select>
+  <div class="input-desc">Select the type or category this item belongs to.</div>
 
   <label for="expiration">Expiration Date</label>
   <input type="date" name="expiration" id="expiration">
+  <div class="input-desc">Optional: Enter when the item expires (if applicable).</div>
 
   <button type="submit">Add Item</button>
 </form>
@@ -46,28 +51,20 @@
     <div class="item fade-in">
       <div>
         <strong>{{ item.name }}</strong> | Qty: {{ item.quantity }} / Par: {{ item.par }}<br>
-        {% if item.category %}<small>Category: {{ item.category }}</small><br>{% endif %}
+        {% if item.category %}
+          <small>Category: {{ item.category }}</small><br>
+        {% endif %}
         {% if item.expiration %}
           {% set delta = (item.expiration - now).days %}
           <small>Expires in: {{ delta }} day{{ 's' if delta != 1 else '' }}</small><br>
         {% endif %}
       </div>
       <div>
-        <a href="javascript:void(0);"
-           onclick="openEditModal('{{ item._id }}', '{{ item.name }}', '{{ item.quantity }}', '{{ item.par }}', '{{ item.category }}', '{{ item.expiration|default('', true) }}')">✏️</a>
+        <a href="#" onclick="openEditModal('{{ item._id }}', '{{ item.name }}', '{{ item.quantity }}', '{{ item.par }}', '{{ item.category }}', '{{ item.expiration|default('', true) }}')">✏️</a>
         <a href="/delete/{{ item._id }}">🗑️</a>
       </div>
     </div>
   {% endfor %}
-{% endif %}
-
-{% if shopping %}
-  <h3>🛒 Shopping List</h3>
-  <ul>
-    {% for item in shopping %}
-      <li>{{ item.name }} (Need {{ item.par - item.quantity }})</li>
-    {% endfor %}
-  </ul>
 {% endif %}
 
 <div class="clear-btn-wrapper">
@@ -75,11 +72,12 @@
 </div>
 
 <!-- Edit Modal -->
-<div id="editModal" class="modal" style="display:none;">
+<div id="editModal" class="modal">
   <div class="modal-content">
     <span class="close" onclick="document.getElementById('editModal').style.display='none'">&times;</span>
     <form method="POST" id="editForm">
       <input type="hidden" name="edit_id" id="edit_id">
+
       <label for="edit_name">Item Name</label>
       <input type="text" name="name" id="edit_name" required>
 
@@ -92,7 +90,7 @@
       <label for="edit_category">Category</label>
       <input type="text" name="category" id="edit_category">
 
-      <label for="edit_expiration">Expiration</label>
+      <label for="edit_expiration">Expiration Date</label>
       <input type="date" name="expiration" id="edit_expiration">
 
       <button type="submit">Update</button>
@@ -107,14 +105,8 @@ function openEditModal(id, name, quantity, par, category, expiration) {
   document.getElementById('edit_quantity').value = quantity;
   document.getElementById('edit_par').value = par;
   document.getElementById('edit_category').value = category;
-
-  if (expiration && expiration !== 'None') {
-    document.getElementById('edit_expiration').value = expiration.split('T')[0];
-  } else {
-    document.getElementById('edit_expiration').value = '';
-  }
-
-  document.getElementById('editModal').style.display = 'block';
+  document.getElementById('edit_expiration').value = expiration ? expiration.split('T')[0] : '';
+  document.getElementById('editModal').style.display = 'flex';
 }
 </script>
 

@@ -3,14 +3,16 @@
 
 {% block content %}
 <h2>🛒 Shopping List</h2>
-<ul class="shopping-list">
-  {% if shopping %}
+
+{% if shopping %}
+  <ul class="shopping-list">
     {% for item in shopping %}
       <li>{{ item.name }} (Need {{ item.par - item.quantity }})</li>
     {% endfor %}
-  {% else %}
-    <li>No items needed at the moment 🎉</li>
-  {% endif %}
-</ul>
-<a href="/dashboard" class="btn small">⬅ Back to Dashboard</a>
+  </ul>
+{% else %}
+  <p>No items needed. You're fully stocked!</p>
+{% endif %}
+
+<a href="/dashboard" class="btn">⬅ Back to Dashboard</a>
 {% endblock %}

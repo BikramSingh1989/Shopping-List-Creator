@@ -9,13 +9,13 @@
 
 <body>
   <!-- Top Navigation Bar -->
-  <div class="top-nav">
+  <div class="top-right-buttons">
     <a href="/how-to-use" class="btn small">How to Use</a>
-  <a href="/shopping-list" class="btn small">Shopping List</a>
-  <a href="/logout" class="btn small">Logout</a>
-  <button class="btn small toggle-btn" onclick="toggleTheme()">🌗</button>
+    <a href="/shopping-list" class="btn small">Shopping List</a>
+    <a href="/logout" class="btn small">Logout</a>
+    <button class="btn small" onclick="toggleTheme()">🌗</button>
   </div>
-  
+
   <!-- Main Container -->
   <div class="container">
     {% block content %}{% endblock %}

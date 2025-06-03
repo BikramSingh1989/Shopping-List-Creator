@@ -2,15 +2,25 @@
 {% block title %}How to Use{% endblock %}
 
 {% block content %}
-<section class="how-to-content">
+<div class="how-to-header" style="margin-bottom: 1.5rem;">
+  <a href="/dashboard" class="btn back-btn">⬅ Back to Dashboard</a>
+</div>
+
+<div class="how-to-content">
   <h2>How to Use the Inventory App</h2>
   <ol>
     <li>Register or log in to your account.</li>
-    <li>Add items with quantity, category, par level, and optional expiration date.</li>
-    <li>Items below par level will appear in your Shopping List automatically.</li>
-    <li>Edit or delete individual items with ✏️ and 🗑️ or clear all with 🧹.</li>
-    <li>Toggle between light, dark, or sepia mode using the 🌗 button.</li>
-    <li>Use on mobile or desktop — the layout is fully responsive and accessible.</li>
+    <li>Add items with quantity, par level, and optional expiration date.</li>
+    <li>Items below par level will show in your Shopping List automatically.</li>
+    <li>Delete individual items with 🗑️ or clear the full inventory with 🧹.</li>
+    <li>Toggle between light/dark mode using the 🌗 button.</li>
+    <li>Use on mobile or desktop — the layout is fully responsive.</li>
   </ol>
-</section>
+</div>
 {% endblock %}
+
+<style>
+.how-to-content {
+  margin-top: 1rem;
+}
+</style>

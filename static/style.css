@@ -41,6 +41,39 @@ body.dark {
   padding: 1rem;
 }
 
+/* ===== Top Navigation ===== */
+.top-nav {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  background-color: var(--card-bg);
+  border-bottom: 1px solid #ccc;
+  flex-wrap: nowrap; /* <-- Force single row */
+  overflow-x: auto;   /* Handle narrow screens */
+}
+
+.top-nav .btn {
+  padding: 0.4rem 0.7rem;
+  font-size: 0.9rem;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+/* ===== Toggle Theme Button ===== */
+.toggle-btn {
+  background: none;
+  border: 1px solid var(--accent);
+  color: var(--text);
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.toggle-btn:hover {
+  background-color: var(--accent);
+  color: white;
+}
+
 /* ===== Form Styles ===== */
 form {
   margin-bottom: 2rem;
@@ -87,47 +120,6 @@ button:hover, .btn:hover {
   transform: translateY(-2px);
 }
 
-/* ===== Animation ===== */
-.fade-in {
-  animation: fadeIn 0.5s ease-in forwards;
-  opacity: 0;
-}
-
-@keyframes fadeIn {
-  to { opacity: 1; }
-}
-
-/* ===== Top Navigation ===== */
-.top-nav {
-  display: flex;
-  justify-content: flex-end;
-  gap: 0.5rem;
-  padding: 0.5rem 1rem;
-  background-color: var(--card-bg);
-  border-bottom: 1px solid #ccc;
-  flex-wrap: wrap;
-}
-
-.top-nav .btn {
-  padding: 0.4rem 0.7rem;
-  font-size: 0.9rem;
-  white-space: nowrap;
-}
-
-/* ===== Toggle Theme Button ===== */
-.toggle-btn {
-  background: none;
-  border: 1px solid var(--accent);
-  color: var(--text);
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
-
-.toggle-btn:hover {
-  background-color: var(--accent);
-  color: white;
-}
-
 /* ===== Inventory Item Card ===== */
 .item {
   background: var(--card-bg);
@@ -155,17 +147,7 @@ button:hover, .btn:hover {
   margin-bottom: 2.5rem;
 }
 
-/* ===== Utility Links ===== */
-a {
-  color: var(--accent);
-  text-decoration: none;
-}
-
-a:hover {
-  text-decoration: underline;
-}
-
-/* ===== Section spacing (e.g. h3) ===== */
+/* ===== Section Spacing ===== */
 h3 {
   margin-top: 2rem;
   margin-bottom: 0.5rem;
@@ -209,14 +191,6 @@ h3 {
   margin-bottom: 0.5rem;
 }
 
-/* ===== Footer ===== */
-.footer {
-  text-align: center;
-  padding: 1rem 0;
-  font-size: 0.9rem;
-  color: #888;
-}
-
 /* ===== Modal Styles ===== */
 .modal {
   position: fixed;
@@ -245,6 +219,24 @@ h3 {
   cursor: pointer;
 }
 
+/* ===== Footer ===== */
+.footer {
+  text-align: center;
+  padding: 1rem 0;
+  font-size: 0.9rem;
+  color: #888;
+}
+
+/* ===== Animation ===== */
+.fade-in {
+  animation: fadeIn 0.5s ease-in forwards;
+  opacity: 0;
+}
+
+@keyframes fadeIn {
+  to { opacity: 1; }
+}
+
 /* ===== Mobile Adjustments ===== */
 @media (max-width: 600px) {
   .container {
@@ -252,13 +244,14 @@ h3 {
   }
 
   .top-nav {
-    flex-direction: column;
-    align-items: flex-end;
+    justify-content: center;
+    flex-wrap: wrap;
   }
 
   .top-nav .btn {
-    margin-bottom: 0.3rem;
+    margin: 0.2rem;
     width: auto;
+    flex: 0 1 auto;
   }
 
   .item {

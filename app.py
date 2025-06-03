@@ -1,7 +1,7 @@
 from flask import Flask, render_template, request, redirect, session
 from pymongo import MongoClient
 from bson.objectid import ObjectId
-from datetime import datetime
+from datetime import datetime, timezone
 import os
 
 app = Flask(__name__)
@@ -53,10 +53,16 @@ def dashboard():
     if request.method == "POST":
         item_id = request.form.get('item_id')
         name = request.form['name']
-        quantity = int(request.form['quantity'])
-        par = int(request.form['par'])
         category = request.form['category']
         expiration_str = request.form.get('expiration')
+
+        try:
+            quantity = int(request.form['quantity'])
+            par = int(request.form['par'])
+            if quantity > 9999 or par > 9999:
+                return "Error: Quantity and stock level must be less than 10,000."
+        except ValueError:
+            return "Error: Please enter valid numbers for quantity and stock level."
 
         expiration_date = None
         if expiration_str:
@@ -85,16 +91,21 @@ def dashboard():
         return redirect("/dashboard")
 
     items = user.get('items', [])
+    now = datetime.now()
+
     for item in items:
         exp = item.get('expiration')
         if exp:
-            days_left = (exp - datetime.now()).days  # <-- FIXED timezone issue
-            item['days_left'] = days_left
+            try:
+                delta = (exp - now).days
+                item['days_left'] = delta
+            except Exception:
+                item['days_left'] = None
         else:
             item['days_left'] = None
 
     shopping_list = [item for item in items if item['quantity'] < item['par']]
-    return render_template("dashboard.html", items=items, shopping=shopping_list)
+    return render_template("dashboard.html", items=items, shopping=shopping_list, now=now)
 
 @app.route("/delete/<item_id>")
 def delete(item_id):
@@ -133,9 +144,6 @@ def shopping_list():
     user = users_col.find_one({'username': session['username']})
     items = user.get('items', [])
     shopping = [item for item in items if item['quantity'] < item['par']]
-
-    # Sort by name for shopping list
-    shopping.sort(key=lambda x: x['name'].lower())
     return render_template("shopping_list.html", shopping=shopping)
 
 @app.route("/logout")

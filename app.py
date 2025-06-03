@@ -125,6 +125,16 @@ def clear_inventory():
         users_col.update_one({'username': session['username']}, {'$set': {'items': []}})
     return redirect("/dashboard")
 
+@app.route("/shopping-list")
+def shopping_list():
+    if 'username' not in session:
+        return redirect("/login")
+
+    user = users_col.find_one({'username': session['username']})
+    items = user.get('items', [])
+    shopping = [item for item in items if item['quantity'] < item['par']]
+    return render_template("shopping_list.html", shopping=shopping)
+
 @app.route("/logout")
 def logout():
     session.pop('username', None)

@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block title %}Shopping List{% endblock %}
+
+{% block content %}
+<h2>🛒 Shopping List</h2>
+<ul class="shopping-list">
+  {% if shopping %}
+    {% for item in shopping %}
+      <li>{{ item.name }} (Need {{ item.par - item.quantity }})</li>
+    {% endfor %}
+  {% else %}
+    <li>No items needed at the moment 🎉</li>
+  {% endif %}
+</ul>
+<a href="/dashboard" class="btn small">⬅ Back to Dashboard</a>
+{% endblock %}

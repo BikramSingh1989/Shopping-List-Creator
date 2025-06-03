@@ -24,8 +24,6 @@ html, body {
   --card-bg: #ffffff;
   --accent: #007bff;
   --accent-hover: #0056b3;
-  --sepia-bg: #f4ecd8;
-  --sepia-text: #5b4636;
 }
 
 body.dark {
@@ -36,19 +34,11 @@ body.dark {
   --accent-hover: #1177cc;
 }
 
-body.sepia {
-  --bg: var(--sepia-bg);
-  --text: var(--sepia-text);
-  --card-bg: #fef6e4;
-  --accent: #cc6600;
-  --accent-hover: #aa4400;
-}
-
 /* ===== Layout Container ===== */
 .container {
   max-width: 900px;
-  margin: 3rem auto;
-  padding: 2rem;
+  margin: 2rem auto;
+  padding: 1rem;
 }
 
 /* ===== Form Styles ===== */
@@ -63,8 +53,8 @@ label {
 }
 
 input, button, .btn, select {
-  padding: 0.6rem 1rem;
-  margin: 0.2rem 0 0.9rem;
+  padding: 0.65rem 1rem;
+  margin: 0.25rem 0 0.75rem;
   width: 100%;
   font-size: 1rem;
   border-radius: 5px;
@@ -72,7 +62,7 @@ input, button, .btn, select {
   text-decoration: none;
 }
 
-input, select {
+input {
   border: 1px solid #ccc;
   background: #fff;
   color: #000;
@@ -107,27 +97,27 @@ button:hover, .btn:hover {
   to { opacity: 1; }
 }
 
-/* ===== Top Navigation Buttons ===== */
+/* ===== Top Navigation ===== */
 .top-nav {
   display: flex;
   justify-content: flex-end;
   gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  background-color: var(--card-bg);
+  border-bottom: 1px solid #ccc;
   flex-wrap: wrap;
-  padding: 1rem;
 }
 
-.top-nav .btn,
-.top-nav .toggle-btn {
-  padding: 0.5rem 0.75rem;
+.top-nav .btn {
+  padding: 0.4rem 0.7rem;
   font-size: 0.9rem;
-  border-radius: 5px;
   white-space: nowrap;
 }
 
 /* ===== Toggle Theme Button ===== */
 .toggle-btn {
-  border: 1px solid var(--accent);
   background: none;
+  border: 1px solid var(--accent);
   color: var(--text);
   cursor: pointer;
   transition: background-color 0.3s ease;
@@ -149,7 +139,7 @@ button:hover, .btn:hover {
   justify-content: space-between;
   align-items: center;
   flex-wrap: wrap;
-  transition: transform 0.2s ease, opacity 0.3s ease;
+  transition: transform 0.2s ease;
 }
 
 .item:hover {
@@ -181,7 +171,7 @@ h3 {
   margin-bottom: 0.5rem;
 }
 
-/* ===== Clear Button Wrapper Fix ===== */
+/* ===== Clear Button Wrapper ===== */
 .clear-btn-wrapper {
   margin-top: 1.5rem;
   text-align: right;
@@ -213,59 +203,62 @@ h3 {
   margin-bottom: 0.75rem;
 }
 
-/* ===== Modal Styling ===== */
-.modal {
-  position: fixed;
-  z-index: 9999;
-  left: 0;
-  top: 0;
-  width: 100%;
-  height: 100%;
-  overflow: auto;
-  background-color: rgba(0,0,0,0.4);
-}
-
-.modal-content {
-  background-color: var(--card-bg);
-  margin: 10% auto;
-  padding: 2rem;
-  border-radius: 8px;
-  width: 90%;
-  max-width: 500px;
-  position: relative;
-}
-
-.close {
-  position: absolute;
-  right: 1rem;
-  top: 1rem;
-  font-size: 1.5rem;
-  cursor: pointer;
+/* ===== Shopping List Page ===== */
+.shopping-list li {
+  font-size: 14px;
+  margin-bottom: 0.5rem;
 }
 
 /* ===== Footer ===== */
 .footer {
   text-align: center;
-  margin-top: 2rem;
-  padding: 1rem;
+  padding: 1rem 0;
   font-size: 0.9rem;
-  color: var(--text);
+  color: #888;
+}
+
+/* ===== Modal Styles ===== */
+.modal {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background-color: rgba(0,0,0,0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-content {
+  background: var(--card-bg);
+  padding: 2rem;
+  border-radius: 8px;
+  width: 90%;
+  max-width: 500px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+}
+
+.close {
+  position: absolute;
+  top: 1rem;
+  right: 1.5rem;
+  font-size: 1.5rem;
+  cursor: pointer;
 }
 
 /* ===== Mobile Adjustments ===== */
 @media (max-width: 600px) {
+  .container {
+    padding: 1rem;
+  }
+
   .top-nav {
     flex-direction: column;
     align-items: flex-end;
   }
 
-  .btn.small, .toggle-btn {
+  .top-nav .btn {
+    margin-bottom: 0.3rem;
     width: auto;
-    margin-bottom: 0.25rem;
-  }
-
-  .container {
-    padding: 1rem;
   }
 
   .item {

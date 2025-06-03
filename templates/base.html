@@ -1,36 +1,39 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
   <title>{% block title %}Inventory App{% endblock %}</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 
 <body>
+  <!-- Top Navigation Bar -->
   <div class="top-nav">
     <a href="/how-to-use" class="btn small">How to Use</a>
     <a href="/logout" class="btn small">Logout</a>
-    <button class="btn small toggle-btn" onclick="toggleTheme()">🌗 Toggle Theme</button>
+    <button class="btn small toggle-btn" onclick="toggleTheme()">🌗</button>
   </div>
 
-  <main class="container">
+  <!-- Main Container -->
+  <div class="container">
     {% block content %}{% endblock %}
-  </main>
+  </div>
 
+  <!-- Footer -->
   <footer class="footer">
     <p>&copy; Shopping-List-Creator made by Bikram Singh 2025</p>
   </footer>
 
+  <!-- Dark Mode Persistence -->
   <script>
-    // Persist dark mode using localStorage
     function toggleTheme() {
       document.body.classList.toggle("dark");
       const isDark = document.body.classList.contains("dark");
       localStorage.setItem("theme", isDark ? "dark" : "light");
     }
 
-    // On load, apply saved theme
+    // Apply saved theme on load
     window.addEventListener("DOMContentLoaded", () => {
       const savedTheme = localStorage.getItem("theme");
       if (savedTheme === "dark") {

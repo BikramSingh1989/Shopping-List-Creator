@@ -1,4 +1,4 @@
-/* ===== Global Reset & Background ===== */
+/* ===== Global Reset & Full-Page Background Fix ===== */
 *,
 *::before,
 *::after {
@@ -24,7 +24,7 @@ html, body {
   --card-bg: #ffffff;
   --accent: #007bff;
   --accent-hover: #0056b3;
-  --border: #ccc;
+  --border: #cccccc;
 }
 
 body.dark {
@@ -43,7 +43,7 @@ body.dark {
   padding: 2rem;
 }
 
-/* ===== Form & Input Styling ===== */
+/* ===== Form Styles ===== */
 form {
   margin-bottom: 2rem;
 }
@@ -56,8 +56,8 @@ label {
 
 .input-desc {
   font-size: 0.85rem;
-  color: var(--text);
-  margin-bottom: 0.75rem;
+  color: gray;
+  margin-bottom: 0.5rem;
 }
 
 input, select, button, .btn {
@@ -82,7 +82,7 @@ input:focus, select:focus {
   box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
 }
 
-button, .btn, .toggle-btn {
+button, .btn {
   background-color: var(--accent);
   color: white;
   border: none;
@@ -90,7 +90,7 @@ button, .btn, .toggle-btn {
   transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
-button:hover, .btn:hover, .toggle-btn:hover {
+button:hover, .btn:hover {
   background-color: var(--accent-hover);
   transform: translateY(-2px);
 }
@@ -116,14 +116,14 @@ button:hover, .btn:hover, .toggle-btn:hover {
   justify-content: center;
   gap: 0.75rem;
   z-index: 1000;
-  border-bottom: 1px solid var(--border);
+  border-bottom: 1px solid #ccc;
   flex-wrap: wrap;
 }
 
-.top-nav .btn,
+.top-nav .btn.small,
 .top-nav .toggle-btn {
-  font-size: 0.9rem;
   padding: 0.5rem 0.75rem;
+  font-size: 0.9rem;
   width: auto;
   white-space: nowrap;
 }
@@ -203,27 +203,45 @@ h2, h3 {
   margin-bottom: 0.75rem;
 }
 
-/* ===== Shopping List Page ===== */
-.shopping-list {
-  border-collapse: collapse;
+/* ===== Shopping Table (Excel-style Gridlines) ===== */
+.shopping-table {
   width: 100%;
+  border-collapse: collapse;
   margin-bottom: 2rem;
-}
-
-.shopping-list li {
-  display: grid;
-  grid-template-columns: 1.5rem auto;
-  align-items: center;
-  gap: 1rem;
+  background-color: var(--card-bg);
+  border: 1px solid var(--border);
   font-size: 14px;
-  padding: 0.5rem;
-  border-bottom: 1px solid var(--border);
 }
 
-.shopping-list input[type="checkbox"] {
-  width: 1.2rem;
-  height: 1.2rem;
+.shopping-table th,
+.shopping-table td {
+  padding: 0.75rem;
+  text-align: left;
+  border: 1px solid var(--border);
+}
+
+.shopping-table th {
+  background-color: var(--accent);
+  color: white;
+}
+
+.checkbox-cell {
+  text-align: center;
+  vertical-align: middle;
+}
+
+.checkbox-inline {
+  width: 1rem;
+  height: 1rem;
+  margin: auto;
+  display: block;
   accent-color: var(--accent);
+}
+
+/* ===== Back Button Wrapper ===== */
+.back-btn-wrapper {
+  margin-top: 2rem;
+  text-align: right;
 }
 
 /* ===== Footer ===== */
@@ -234,6 +252,33 @@ h2, h3 {
   color: var(--text);
 }
 
+/* ===== Modal Styling ===== */
+.modal {
+  display: none;
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: rgba(0, 0, 0, 0.6);
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+}
+
+.modal-content {
+  background: var(--card-bg);
+  padding: 2rem;
+  border-radius: 10px;
+  width: 90%;
+  max-width: 500px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.3);
+}
+
+.modal .close {
+  float: right;
+  font-size: 1.5rem;
+  cursor: pointer;
+}
+
 /* ===== Mobile Responsive Adjustments ===== */
 @media (max-width: 600px) {
   .container {
@@ -242,11 +287,12 @@ h2, h3 {
 
   .top-nav {
     flex-direction: row;
+    flex-wrap: wrap;
     justify-content: center;
   }
 
   .btn.small,
-  .toggle-btn {
+  .top-nav .toggle-btn {
     margin-bottom: 0.25rem;
   }
 

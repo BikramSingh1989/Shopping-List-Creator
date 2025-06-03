@@ -1,4 +1,4 @@
-{% extends "base.html" %}
+{% extends "base.html" %} 
 {% block title %}Shopping List{% endblock %}
 
 {% block content %}
@@ -8,20 +8,20 @@
   <table class="shopping-table">
     <thead>
       <tr>
-        <th>Check</th>
-        <th>Item Name</th>
-        <th>Needed Qty</th>
+        <th>✔</th>
+        <th>Item</th>
+        <th>Need</th>
         <th>Category</th>
       </tr>
     </thead>
     <tbody>
       {% for item in shopping %}
-      <tr>
-        <td><input type="checkbox" class="checkbox"></td>
-        <td>{{ item.name }}</td>
-        <td>{{ item.par - item.quantity }}</td>
-        <td>{{ item.category }}</td>
-      </tr>
+        <tr>
+          <td class="checkbox-cell"><input type="checkbox" class="checkbox-inline" /></td>
+          <td>{{ item.name }}</td>
+          <td>{{ item.par - item.quantity }}</td>
+          <td>{{ item.category }}</td>
+        </tr>
       {% endfor %}
     </tbody>
   </table>
@@ -29,7 +29,7 @@
   <p>No items needed. You're fully stocked!</p>
 {% endif %}
 
-<div class="back-btn-wrapper">
+<div class="back-btn-wrapper" style="margin-top: 2rem;">
   <a href="/dashboard" class="btn">⬅ Back to Dashboard</a>
 </div>
 {% endblock %}

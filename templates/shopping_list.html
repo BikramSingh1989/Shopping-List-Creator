@@ -5,11 +5,19 @@
 <h2>🛒 Shopping List</h2>
 
 {% if shopping %}
-  <ul class="shopping-list">
-    {% for item in shopping %}
-      <li>{{ item.name }} (Need {{ item.par - item.quantity }})</li>
-    {% endfor %}
-  </ul>
+  <div class="shopping-list-wrapper">
+    <ul class="shopping-list">
+      {% for item in shopping %}
+        <li>
+          <label>
+            <input type="checkbox">
+            <span class="item-name">{{ item.name }}</span>
+            <span class="item-need"> (Need {{ item.par - item.quantity }})</span>
+          </label>
+        </li>
+      {% endfor %}
+    </ul>
+  </div>
 {% else %}
   <p>No items needed. You're fully stocked!</p>
 {% endif %}

@@ -4,6 +4,30 @@
 
 <h2>Inventory Dashboard</h2>
 
+<!-- Category Filter -->
+<form method="GET" action="/dashboard" class="filter-form">
+  <label for="filter_category">Filter by Category:</label>
+  <select name="filter_category" id="filter_category" onchange="this.form.submit()">
+    <option value="">All</option>
+    <option value="American">American</option>
+    <option value="Asian">Asian</option>
+    <option value="Bakery">Bakery</option>
+    <option value="Canned Goods">Canned Goods</option>
+    <option value="Dairy">Dairy</option>
+    <option value="Drinks">Drinks</option>
+    <option value="Foreign">Foreign</option>
+    <option value="Frozen">Frozen</option>
+    <option value="Grains & Bread">Grains & Bread</option>
+    <option value="Indian">Indian</option>
+    <option value="Meat">Meat</option>
+    <option value="Pasta & Rice">Pasta & Rice</option>
+    <option value="Produce">Produce</option>
+    <option value="Sauces">Sauces</option>
+    <option value="Snacks">Snacks</option>
+  </select>
+</form>
+
+<!-- Add Item Form -->
 <form method="POST" class="fade-in">
   <label for="name">Item Name</label>
   <input type="text" name="name" id="name" required>
@@ -20,21 +44,21 @@
   <label for="category">Category</label>
   <select name="category" id="category" required>
     <option value="" disabled selected>Select category</option>
-    <option value="Frozen">Frozen</option>
+    <option value="American">American</option>
     <option value="Asian">Asian</option>
-    <option value="Dairy">Dairy</option>
-    <option value="Produce">Produce</option>
     <option value="Bakery">Bakery</option>
+    <option value="Canned Goods">Canned Goods</option>
+    <option value="Dairy">Dairy</option>
+    <option value="Drinks">Drinks</option>
+    <option value="Foreign">Foreign</option>
+    <option value="Frozen">Frozen</option>
+    <option value="Grains & Bread">Grains & Bread</option>
+    <option value="Indian">Indian</option>
     <option value="Meat">Meat</option>
     <option value="Pasta & Rice">Pasta & Rice</option>
-    <option value="Grains & Bread">Grains & Bread</option>
+    <option value="Produce">Produce</option>
     <option value="Sauces">Sauces</option>
-    <option value="Indian">Indian</option>
-    <option value="American">American</option>
-    <option value="Foreign">Foreign</option>
-    <option value="Canned Goods">Canned Goods</option>
     <option value="Snacks">Snacks</option>
-    <option value="Drinks">Drinks</option>
   </select>
   <div class="input-desc">Select the type or category this item belongs to.</div>
 
@@ -42,37 +66,39 @@
   <input type="date" name="expiration" id="expiration">
   <div class="input-desc">Optional: Enter when the item expires (if applicable).</div>
 
-  <button type="submit">Add Item</button>
+  <button type="submit" class="btn">Add Item</button>
 </form>
 
+<!-- Inventory List -->
 {% if items %}
   <h3>Your Inventory</h3>
   {% for item in items %}
     <div class="item fade-in">
       <div>
         <strong>{{ item.name }}</strong> | Qty: {{ item.quantity }} / Par: {{ item.par }}<br>
-        {% if item.category %}
-          <small>Category: {{ item.category }}</small><br>
-        {% endif %}
+        {% if item.category %}<small>Category: {{ item.category }}</small><br>{% endif %}
         {% if item.expiration %}
           {% set delta = (item.expiration - now).days %}
-          <small>Expires in: {{ delta }} day{{ 's' if delta != 1 else '' }}</small><br>
+          <small class="{{ 'expire-soon' if delta <= 3 else '' }}">
+            Expires in: {{ delta }} day{{ 's' if delta != 1 else '' }}
+          </small><br>
         {% endif %}
       </div>
       <div>
         <a href="#" onclick="openEditModal('{{ item._id }}', '{{ item.name }}', '{{ item.quantity }}', '{{ item.par }}', '{{ item.category }}', '{{ item.expiration|default('', true) }}')">✏️</a>
-        <a href="/delete/{{ item._id }}">🗑️</a>
+        <a href="#" onclick="confirmDelete('{{ item._id }}')">🗑️</a>
       </div>
     </div>
   {% endfor %}
 {% endif %}
 
+<!-- Clear Inventory Button -->
 <div class="clear-btn-wrapper">
-  <a href="/clear-inventory" class="btn">Clear Inventory</a>
+  <a href="#" class="btn" onclick="confirmClear()">Clear Inventory</a>
 </div>
 
 <!-- Edit Modal -->
-<div id="editModal" class="modal">
+<div id="editModal" class="modal" style="display: none;">
   <div class="modal-content">
     <span class="close" onclick="document.getElementById('editModal').style.display='none'">&times;</span>
     <form method="POST" id="editForm">
@@ -93,21 +119,33 @@
       <label for="edit_expiration">Expiration Date</label>
       <input type="date" name="expiration" id="edit_expiration">
 
-      <button type="submit">Update</button>
+      <button type="submit" class="btn">Update</button>
     </form>
   </div>
 </div>
 
 <script>
-function openEditModal(id, name, quantity, par, category, expiration) {
-  document.getElementById('edit_id').value = id;
-  document.getElementById('edit_name').value = name;
-  document.getElementById('edit_quantity').value = quantity;
-  document.getElementById('edit_par').value = par;
-  document.getElementById('edit_category').value = category;
-  document.getElementById('edit_expiration').value = expiration ? expiration.split('T')[0] : '';
-  document.getElementById('editModal').style.display = 'flex';
-}
+  function openEditModal(id, name, quantity, par, category, expiration) {
+    document.getElementById('edit_id').value = id;
+    document.getElementById('edit_name').value = name;
+    document.getElementById('edit_quantity').value = quantity;
+    document.getElementById('edit_par').value = par;
+    document.getElementById('edit_category').value = category;
+    document.getElementById('edit_expiration').value = expiration ? expiration.split('T')[0] : '';
+    document.getElementById('editModal').style.display = 'flex';
+  }
+
+  function confirmDelete(itemId) {
+    if (confirm("Are you sure you want to delete this item?")) {
+      window.location.href = "/delete/" + itemId;
+    }
+  }
+
+  function confirmClear() {
+    if (confirm("Are you sure you want to clear your entire inventory?")) {
+      window.location.href = "/clear-inventory";
+    }
+  }
 </script>
 
 {% endblock %}

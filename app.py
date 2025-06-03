@@ -2,7 +2,6 @@ from flask import Flask, render_template, request, redirect, session
 from pymongo import MongoClient
 from bson.objectid import ObjectId
 from datetime import datetime, timezone
-from werkzeug.security import generate_password_hash, check_password_hash
 import os
 
 app = Flask(__name__)
@@ -30,10 +29,9 @@ def register():
         if users_col.find_one({'username': username}):
             return "User already exists"
 
-        hashed_pw = generate_password_hash(password)
         users_col.insert_one({
             'username': username,
-            'password': hashed_pw,
+            'password': password,
             'items': []
         })
         return redirect("/login")
@@ -46,8 +44,8 @@ def login():
         username = request.form['username']
         password = request.form['password']
 
-        user = users_col.find_one({'username': username})
-        if user and check_password_hash(user['password'], password):
+        user = users_col.find_one({'username': username, 'password': password})
+        if user:
             session['username'] = username
             return redirect("/dashboard")
 

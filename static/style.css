@@ -24,6 +24,8 @@ html, body {
   --card-bg: #ffffff;
   --accent: #007bff;
   --accent-hover: #0056b3;
+  --sepia-bg: #f4ecd8;
+  --sepia-text: #5b4636;
 }
 
 body.dark {
@@ -32,6 +34,14 @@ body.dark {
   --card-bg: #2a2a2a;
   --accent: #3399ff;
   --accent-hover: #1177cc;
+}
+
+body.sepia {
+  --bg: var(--sepia-bg);
+  --text: var(--sepia-text);
+  --card-bg: #fef6e4;
+  --accent: #cc6600;
+  --accent-hover: #aa4400;
 }
 
 /* ===== Layout Container ===== */
@@ -48,13 +58,13 @@ form {
 
 label {
   display: block;
-  margin: 0.75rem 0 0.25rem;
+  margin: 0.5rem 0 0.25rem;
   font-weight: 600;
 }
 
-input, button, .btn {
-  padding: 0.75rem 1rem;
-  margin: 0.25rem 0 1rem;
+input, button, .btn, select {
+  padding: 0.6rem 1rem;
+  margin: 0.2rem 0 0.9rem;
   width: 100%;
   font-size: 1rem;
   border-radius: 5px;
@@ -62,13 +72,13 @@ input, button, .btn {
   text-decoration: none;
 }
 
-input {
+input, select {
   border: 1px solid #ccc;
   background: #fff;
   color: #000;
 }
 
-input:focus {
+input:focus, select:focus {
   outline: none;
   border-color: var(--accent);
   box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
@@ -97,21 +107,17 @@ button:hover, .btn:hover {
   to { opacity: 1; }
 }
 
-/* ===== Top-Right Navigation Buttons (including toggle) ===== */
-.top-right-buttons {
-  position: absolute;
-  top: 1rem;
-  right: 1rem;
+/* ===== Top Navigation Buttons ===== */
+.top-nav {
   display: flex;
-  gap: 0.5rem;
-  z-index: 10;
-  flex-wrap: wrap;
   justify-content: flex-end;
-  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  padding: 1rem;
 }
 
-.btn.small,
-.top-right-buttons .toggle-btn {
+.top-nav .btn,
+.top-nav .toggle-btn {
   padding: 0.5rem 0.75rem;
   font-size: 0.9rem;
   border-radius: 5px;
@@ -119,7 +125,7 @@ button:hover, .btn:hover {
 }
 
 /* ===== Toggle Theme Button ===== */
-.top-right-buttons .toggle-btn {
+.toggle-btn {
   border: 1px solid var(--accent);
   background: none;
   color: var(--text);
@@ -127,7 +133,7 @@ button:hover, .btn:hover {
   transition: background-color 0.3s ease;
 }
 
-.top-right-buttons .toggle-btn:hover {
+.toggle-btn:hover {
   background-color: var(--accent);
   color: white;
 }
@@ -143,7 +149,7 @@ button:hover, .btn:hover {
   justify-content: space-between;
   align-items: center;
   flex-wrap: wrap;
-  transition: transform 0.2s ease;
+  transition: transform 0.2s ease, opacity 0.3s ease;
 }
 
 .item:hover {
@@ -207,17 +213,59 @@ h3 {
   margin-bottom: 0.75rem;
 }
 
+/* ===== Modal Styling ===== */
+.modal {
+  position: fixed;
+  z-index: 9999;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0,0,0,0.4);
+}
+
+.modal-content {
+  background-color: var(--card-bg);
+  margin: 10% auto;
+  padding: 2rem;
+  border-radius: 8px;
+  width: 90%;
+  max-width: 500px;
+  position: relative;
+}
+
+.close {
+  position: absolute;
+  right: 1rem;
+  top: 1rem;
+  font-size: 1.5rem;
+  cursor: pointer;
+}
+
+/* ===== Footer ===== */
+.footer {
+  text-align: center;
+  margin-top: 2rem;
+  padding: 1rem;
+  font-size: 0.9rem;
+  color: var(--text);
+}
+
 /* ===== Mobile Adjustments ===== */
 @media (max-width: 600px) {
-  .top-right-buttons {
+  .top-nav {
     flex-direction: column;
     align-items: flex-end;
   }
 
-  .btn.small,
-  .top-right-buttons .toggle-btn {
+  .btn.small, .toggle-btn {
     width: auto;
     margin-bottom: 0.25rem;
+  }
+
+  .container {
+    padding: 1rem;
   }
 
   .item {
@@ -230,25 +278,7 @@ h3 {
     margin-left: 0;
   }
 
-  .container {
-    padding: 1rem;
-  }
-
   .clear-btn-wrapper {
     text-align: center;
   }
-}
-
-.footer {
-  text-align: center;
-  padding: 1rem 0;
-  font-size: 0.9rem;
-  color: var(--text);
-  background-color: var(--bg);
-  border-top: 1px solid rgba(0, 0, 0, 0.1);
-  margin-top: 2rem;
-}
-
-body.dark .footer {
-  border-top: 1px solid rgba(255, 255, 255, 0.1);
 }

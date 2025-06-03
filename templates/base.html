@@ -8,15 +8,19 @@
 </head>
 
 <body>
-  <div class="top-right-buttons">
+  <div class="top-nav">
     <a href="/how-to-use" class="btn small">How to Use</a>
     <a href="/logout" class="btn small">Logout</a>
-    <button class="toggle-btn" onclick="toggleTheme()">🌗 Toggle Theme</button>
+    <button class="btn small toggle-btn" onclick="toggleTheme()">🌗 Toggle Theme</button>
   </div>
 
-  <div class="container">
+  <main class="container">
     {% block content %}{% endblock %}
-  </div>
+  </main>
+
+  <footer class="footer">
+    <p>&copy; Shopping-List-Creator made by Bikram Singh 2025</p>
+  </footer>
 
   <script>
     // Persist dark mode using localStorage
@@ -36,7 +40,3 @@
   </script>
 </body>
 </html>
-
-<footer class="footer">
-  <p>&copy; 2025 App made by Bikram Singh</p>
-</footer>

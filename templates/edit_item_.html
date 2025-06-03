@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% block title %}Edit Item{% endblock %}
+
+{% block content %}
+<h2>Edit Inventory Item</h2>
+
+<form method="post" action="/dashboard">
+  <input type="hidden" name="item_id" value="{{ item._id }}">
+
+  <label for="name">Item Name</label>
+  <input type="text" id="name" name="name" value="{{ item.name }}" required>
+
+  <label for="quantity">Quantity</label>
+  <input type="number" id="quantity" name="quantity" value="{{ item.quantity }}" required>
+
+  <label for="par">Par Level</label>
+  <input type="number" id="par" name="par" value="{{ item.par }}" required>
+
+  <label for="category">Category</label>
+  <select name="category" id="category" required>
+    <option value="" disabled>Select category</option>
+    {% for option in [
+      "Frozen", "Asian", "Dairy", "Produce", "Bakery", "Meat", "Pasta & Rice",
+      "Grains & Bread", "Sauces", "Indian", "American", "Foreign", "Canned Goods",
+      "Snacks", "Drinks"] %}
+      <option value="{{ option }}" {% if item.category == option %}selected{% endif %}>{{ option }}</option>
+    {% endfor %}
+  </select>
+
+  <label for="expiration">Expiration Date</label>
+  <input type="date" id="expiration" name="expiration"
+         value="{{ item.expiration.strftime('%Y-%m-%d') if item.expiration }}">
+
+  <button type="submit">Update Item</button>
+</form>
+
+<div style="margin-top: 1rem;">
+  <a href="/dashboard" class="btn small">⬅ Back to Dashboard</a>
+</div>
+{% endblock %}

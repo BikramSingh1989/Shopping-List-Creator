@@ -5,23 +5,11 @@
 <h2>🛒 Shopping List</h2>
 
 {% if shopping %}
-  {% set categorized = {} %}
-  {% for item in shopping %}
-    {% set cat = item.category or "Uncategorized" %}
-    {% if cat not in categorized %}
-      {% set _ = categorized.update({cat: []}) %}
-    {% endif %}
-    {% set _ = categorized[cat].append(item) %}
-  {% endfor %}
-
-  {% for cat in categorized|dictsort %}
-    <h4>{{ cat[0] }}</h4>
-    <ul class="shopping-list">
-      {% for item in cat[1] %}
-        <li>{{ item.name }} (Need {{ item.par - item.quantity }})</li>
-      {% endfor %}
-    </ul>
-  {% endfor %}
+  <ul class="shopping-list">
+    {% for item in shopping %}
+      <li>{{ item.name }} (Need {{ item.par - item.quantity }})</li>
+    {% endfor %}
+  </ul>
 {% else %}
   <p>No items needed. You're fully stocked!</p>
 {% endif %}
